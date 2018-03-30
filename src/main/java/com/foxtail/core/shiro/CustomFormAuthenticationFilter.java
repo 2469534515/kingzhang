@@ -19,8 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.foxtail.common.util.TcpipUtil;
 import com.foxtail.model.sys.SysUser;
 import com.foxtail.service.sys.SysUserService;
-import com.foxtail.vo.sys.SysUserActiveVo;
-
 
 /**
  * 
@@ -72,9 +70,8 @@ public class CustomFormAuthenticationFilter extends FormAuthenticationFilter {
 	}
  
 	
-	@Override                                                      
+	@Override                                                  
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-		// TODO Auto-generated method stub
 		
 		boolean b = super.isAccessAllowed(request, response, mappedValue);
 		return b;
@@ -86,19 +83,13 @@ public class CustomFormAuthenticationFilter extends FormAuthenticationFilter {
 	@Override
 	protected void issueSuccessRedirect(ServletRequest request, ServletResponse response) throws Exception {
 		//aop不能拦截filter的内容，记录登录认证的日志
-		SysUserActiveVo sysUserActive = ShiroUser.getUser();
+		SysUser sysUserActive = ShiroUser.getUser();
 		//更新用户登录时间
 		SysUser user = new SysUser();
 		user.setId(sysUserActive.getId());
-		user.setLastLoginTime(new Date());
 		
 		HttpServletRequest httpServletRequest=(HttpServletRequest)request;
 		String ipAddr = TcpipUtil.getIpAddr(httpServletRequest);
-		user.setLastLoginIp(ipAddr);
-		user.setLoginErrTimes(Integer.valueOf(0));
-		//清空登录出错信息
-		user.setStatus(SysUser.STATUS_ENABLE);
-		sysUserService.updateByPrimaryKeySelective(user);
 		//认证通过后的跳转地址
 		WebUtils.issueRedirect(request, response, getSuccessUrl(), null, true);
 	}

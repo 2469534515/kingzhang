@@ -11,18 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.foxtail.common.page.Pagination;
 import com.foxtail.common.util.PublicUtil;
-import com.foxtail.dao.mybatis.sys.SysReleaseUserDao;
 import com.foxtail.model.sys.SysReleaseUser;
 import com.foxtail.model.sys.SysUser;
-import com.foxtail.service.sys.SysReleaseUserService;
 import com.foxtail.service.sys.SysUserService;
-import com.foxtail.vo.sys.SysReleaseUserVo;
 
-@Transactional
-@Service("sysReleaseUserService")
-public class SysReleaseUserServiceImpl implements SysReleaseUserService{
 
-	private final static Logger log= Logger.getLogger(SysReleaseUserServiceImpl.class);
+
+public class SysReleaseUserServiceImpl{
+
+	/*private final static Logger log= Logger.getLogger(SysReleaseUserService.class);
 
 	@Autowired
 	private SysReleaseUserDao sysReleaseUserDao;
@@ -77,7 +74,7 @@ public class SysReleaseUserServiceImpl implements SysReleaseUserService{
 				idsList.add(id);
 				SysReleaseUser sysReleaseUser = sysReleaseUserDao.selectByPrimaryKey(id);
 				if (null!=sysReleaseUser) {
-					sysUserService.deleteByPrimaryKey(sysReleaseUser.getUserId());
+					sysUserService.delete(new String[] {sysReleaseUser.getUserId()+""});
 				}
 			}
 			this.sysReleaseUserDao.deleteByIds(idsList);
@@ -86,7 +83,8 @@ public class SysReleaseUserServiceImpl implements SysReleaseUserService{
 			this.sysReleaseUserDao.deleteByPrimaryKey(id);
 			SysReleaseUser sysReleaseUser = sysReleaseUserDao.selectByPrimaryKey(id);
 			if (null!=sysReleaseUser) {
-				sysUserService.deleteByPrimaryKey(sysReleaseUser.getUserId());
+				
+				sysUserService.delete(new String[] {sysReleaseUser.getUserId()+""});
 			}
 		}
     }
@@ -104,7 +102,7 @@ public class SysReleaseUserServiceImpl implements SysReleaseUserService{
 	@Override
 	public void saveSysReleaserUser(SysReleaseUserVo sysReleaseUserVo) {
 		SysUser sysUser = sysReleaseUserVo.getSysUser();
-		sysUserService.insertSelective(sysUser);
+		sysUserService.save(sysUser);
 		SysReleaseUser sysReleaseUser=new SysReleaseUser();
 		BeanUtils.copyProperties(sysReleaseUserVo, sysReleaseUser);
 		Integer orgType = sysReleaseUser.getOrgType();
@@ -115,14 +113,14 @@ public class SysReleaseUserServiceImpl implements SysReleaseUserService{
 		}else {
 			sysReleaseUser.setReleaseType(SysReleaseUser.TYPE_LIMIT);
 		}
-		sysReleaseUser.setUserId(sysUser.getId());
+		sysReleaseUser.setUserId(Integer.valueOf(sysUser.getId()));
 		sysReleaseUserDao.insertSelective(sysReleaseUser);
 	}
 
 	@Override
 	public void editSysReleaserUser(SysReleaseUserVo sysReleaseUserVo) {
 		SysUser sysUser = sysReleaseUserVo.getSysUser();
-		sysUserService.updateByPrimaryKeySelective(sysUser);
+		sysUserService.update(sysUser);
 		SysReleaseUser sysReleaseUser=new SysReleaseUser();
 		BeanUtils.copyProperties(sysReleaseUserVo, sysReleaseUser);
 		Integer orgType = sysReleaseUser.getOrgType();
@@ -177,6 +175,6 @@ public class SysReleaseUserServiceImpl implements SysReleaseUserService{
 			}
 		}
 	}
-
+*/
 }
 

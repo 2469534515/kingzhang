@@ -16,7 +16,7 @@
 	
 		//表单提交
 		$("#submit_form").ajaxSubmit({
-			url:"${path}/sysUserController/editSubmit.do",
+			url:"${path}/sys/auth/user/editSubmit.do",
 			data : $("#submit_form").serialize(),
 			cache : false,
 			dataType : 'JSON',
@@ -34,7 +34,7 @@
 	//返回列表
 	function goBackList(){
 		var index = parent.layer.getFrameIndex(window.name);
-		if(isNaN(index))window.location="${path}/sysUserController/toList.do";
+		if(isNaN(index))window.location="${path}/sys/auth/user/toList.do";
 		else
 		parent.layer.close(index);
 		
@@ -73,7 +73,7 @@
 		
 		<div class="formbody">
    			<div class="formtitle"><span>基本信息</span></div>
-   			<form id="submit_form" method="post">
+   			<form id="submit_form" method="post" data-action="${path}/admin/information/article/save.do">
    				<input type="hidden" name="id" value="${vo.id}"/>
 				<ul class="forminfo">
 					<li><span>姓名：</span><input name="userName" id="userName" value="${vo.userName}" type="text" class="form-control input-primary input-sm w260" /></li>

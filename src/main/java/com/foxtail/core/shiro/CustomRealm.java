@@ -16,10 +16,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.foxtail.model.sys.SysResource;
 import com.foxtail.model.sys.SysUser;
-import com.foxtail.service.sys.SysResourceService;
+import com.foxtail.service.sys.SysResService;
 import com.foxtail.service.sys.SysRoleService;
 import com.foxtail.service.sys.SysUserService;
-import com.foxtail.vo.sys.SysUserActiveVo;
 
 /**
 * Description:自定义realm 
@@ -31,7 +30,7 @@ public class CustomRealm extends AuthorizingRealm{
 	private SysUserService sysUserService;
 	
 	@Autowired
-	private SysResourceService sysResourceService;
+	private SysResService sysResourceService;
 	
 	@Autowired
 	private SysRoleService sysRoleService;
@@ -58,22 +57,21 @@ public class CustomRealm extends AuthorizingRealm{
 			SecurityUtils.getSubject().getSession().setAttribute("CodeKey",null);
 			throw new IncorrectCaptchaException("验证码为空");
 		}*/
-		SysUserActiveVo sysUserActive = null;
+		
 		SysUser sysUser = sysUserService.findSingleUser(userCode);
 		//验证用户名
 		if(null == sysUser){
 			return null; //shiro 会自动抛出账号不存在的异常
 		}
 		//验证是否锁定
-		if (sysUser.isLocked()) {//抛出帐号锁定的异常,配置ip地址可以放行
+		if (sysUser.getIslock()!=null&&sysUser.getIslock()==2) //抛出帐号锁定的异常,配置ip地址可以放行
 			throw new LockedAccountException();  
-			
-		}
-		sysUserActive = new SysUserActiveVo();
-		BeanUtils.copyProperties(sysUser, sysUserActive);
-		sysUserActive.setLoginName(userCode);
+		
+		
+		/*BeanUtils.copyProperties(sysUser, sysUserActive);
+		sysUserActive.setLoginName(userCode);*/
 		String password = sysUser.getPassword();
-		SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(sysUserActive, password, this.getName());
+		SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(sysUser, password, this.getName());
 		return simpleAuthenticationInfo;
 	}
 	
@@ -83,29 +81,29 @@ public class CustomRealm extends AuthorizingRealm{
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		System.out.println("用户权限");
-		SysUserActiveVo sysUser =  (SysUserActiveVo) principals.getPrimaryPrincipal();
+		SysUser sysUser =  (SysUser) principals.getPrimaryPrincipal();
 		List<String> permissions = new ArrayList<String>();
-		List<Myprem> myprems = new ArrayList<>();
+		
  		if(null != sysUser){
 			List<SysResource> resources = sysResourceService.findAllByUserId(sysUser.getId());
 			for(SysResource resource : resources){
-				String permission = resource.getPermissionStr();
-				if(resource.getIsEnable()!=null&&resource.getIsEnable()==2)
+				String permission = resource.getPermission();
+				if(resource.getStatus()!=null&&resource.getStatus()!=1)
 					continue;
 				if(null != permission && ! "".equals(permission.trim())){
 					permissions.add(permission);
-					myprems.add(Myprem.getMyprem(permission));
+					
 				}
 			}
 			
-			sysUser.setMyprems(myprems);
+			
 		}
  		
-		List<String> roleList = sysRoleService.findRoleTypesByUserId(sysUser.getId());
+		//List<String> roleList = sysRoleService.findRoleTypesByUserId(sysUser.getId());
 		SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 		simpleAuthorizationInfo.addStringPermissions(permissions);
 		
-		simpleAuthorizationInfo.addRoles(roleList);//角色类型
+		//simpleAuthorizationInfo.addRoles(roleList);//角色类型
 		
 		return simpleAuthorizationInfo;
 	}

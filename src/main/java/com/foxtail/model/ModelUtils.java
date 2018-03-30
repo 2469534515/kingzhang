@@ -2,8 +2,7 @@ package com.foxtail.model;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-
-import com.foxtail.vo.sys.SysUserActiveVo;
+import com.foxtail.model.sys.SysUser;
 
 public class ModelUtils {
 	
@@ -15,8 +14,8 @@ public class ModelUtils {
 	public static BaseModel finishSaveModel(BaseModel model) {
 		
 		Subject subject = SecurityUtils.getSubject();
-		SysUserActiveVo user = (SysUserActiveVo) subject.getPrincipal();
-		model.setCreator(user.getUserName());
+		SysUser user = (SysUser) subject.getPrincipal();
+		model.setCreator(user.getName());
 		model.setCreatetime(System.currentTimeMillis()+"");
 		return model;
 	}

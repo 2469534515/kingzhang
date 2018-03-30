@@ -6,15 +6,22 @@ import com.foxtail.common.base.BaseMybatisService;
 import com.foxtail.common.page.Pagination;
 import com.foxtail.model.sys.SysUser;
 import com.foxtail.model.sys.SysUserRole;
-import com.foxtail.vo.sys.SysUserVo;
 
-public interface SysUserService extends BaseMybatisService<SysUser,Integer> {	
+public interface SysUserService {	
     
-    public void deleteIds(String ids);
+	SysUser getById(String id);
+	
+	void save(SysUser user);
+	
+    void delete(String[] ids);
+    
+    void update(SysUser user);
+    
+    public Pagination findForPage(Pagination page,String kw);
     
     public List<SysUser> selectList(SysUser sysUser);
     
-    public Pagination findListByPage(int rows, int page,SysUserVo vo);
+    
     /**
      * Description:    
      * @Title: findSingleUser  根据账户，电子邮件，电话号码或者身份证号查找用户
@@ -28,13 +35,14 @@ public interface SysUserService extends BaseMybatisService<SysUser,Integer> {
      * Description:    
      * @Title: findExist  
       */
-     public boolean findIsExist(String name,String type);
+    // public boolean findIsExist(String name,String type);
      
      
      boolean updateByAccount(SysUser sysUser);
      
      
-     void deleteByAccouts(String[] accounts);
+     
+     
    
 }
 

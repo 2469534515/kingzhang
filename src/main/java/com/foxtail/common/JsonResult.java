@@ -2,9 +2,9 @@ package com.foxtail.common;
 
 public class JsonResult {
 	//业务处理错误
-	public static final int STATUS_FAIL = 1;
+	public static final int STATUS_FAIL = 0;
 	//业务处理成功
-	public static final int STATUS_SUCCESS = 0;
+	public static final int STATUS_SUCCESS = 1;
 	//接口调用流程错误
 	public static final int STATUS_CALL_ERROR = 4;
 	//未认证
@@ -19,8 +19,7 @@ public class JsonResult {
 	
 	
 	
-	int status = 0;
-	
+	int code = 1;
 	
 	String JSESSIONID ;
 	
@@ -36,7 +35,7 @@ public class JsonResult {
 	
 	public JsonResult(int s) {
 		
-		status = s;
+		code = s;
 	}
 
 	
@@ -63,12 +62,14 @@ public class JsonResult {
 		this.token = token;
 	}
 
-	public int getStatus() {
-		return status;
-	}
 	
-	public void setStatus(int status) {
-		this.status = status;
+
+	public int getCode() {
+		return code;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
 	}
 
 	public String getMsg() {

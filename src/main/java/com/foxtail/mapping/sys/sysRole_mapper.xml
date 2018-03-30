@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foxtail.dao.mybatis.sys.SysRoleDao">
+
+	<sql id="BASE_COL">
+		id,  name,  rdesc,  status 
+	</sql>
+
+	 <!-- 分页数据 -->    
+	<select id="findForPage" resultType="com.foxtail.model.sys.SysRole" parameterType="string">
+  		select <include refid="BASE_COL" />
+  	      from t_sys_role where 1=1 
+		  <if test="kw != null ">and role_name like CONCAT('%',#{kw},'%')</if>
+  	</select> 
+  	
+  	
+  	  
+  	<select id="getById" resultType="com.foxtail.model.sys.SysRole" parameterType="string" >
+	  select <include refid="BASE_COL" />
+	  from t_sys_role
+	  where id = #{id}
+	</select>   
+	
+	<insert id="save" >
+      INSERT INTO t_sys_role (name, rdesc, status) VALUES (#{mo.name}, #{mo.rdesc}, #{mo.status});
+	</insert>
+	
+	<!-- 更新记录 -->
+	<update id="update" >
+	   update t_sys_role
+		<set >
+			<if test="mo.name != null ">
+		  	name = #{mo.name},
+			</if>
+			<if test="mo.rdesc != null ">
+		  	rdesc = #{mo.rdesc},
+			</if>
+			<if test="mo.status != null ">
+		  	status = #{mo.status},
+			</if>
+	    </set>
+	   where id = #{mo.id}
+	</update>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+	<!-- 根据主键获取对象 -->  
+	<select id="selectByPrimaryKey" resultType="com.foxtail.model.sys.SysRole" parameterType="java.lang.Integer" >
+	  select 
+	  <include refid="BASE_COL" />
+	  from t_sys_role
+	  where id = #{id,jdbcType=INTEGER}
+	</select>	
+
+	 <!-- 获取表所有数据 -->    
+    <select id="findAll" resultType="com.foxtail.model.sys.SysRole" parameterType="java.lang.Integer" >
+      select
+      <include refid="BASE_COL" />
+      from t_sys_role
+    </select>
+
+	<!-- 根据主键删除 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+	  delete from t_sys_role
+	  where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	 <!-- 根据对象主键更新 -->    
+  	<update id="updateByPrimaryKey" parameterType="com.foxtail.model.sys.SysRole" >
+       update t_sys_role
+       set 
+	      id = #{id,jdbcType=INTEGER},
+	      role_name = #{roleName,jdbcType=VARCHAR},
+	      role_type = #{roleType,jdbcType=INTEGER},
+	      role_status = #{roleStatus,jdbcType=INTEGER},
+	      create_user_id = #{createUserId,jdbcType=INTEGER},
+	      create_time = #{createTime,jdbcType=TIMESTAMP},
+	      modify_user_id = #{modifyUserId,jdbcType=INTEGER},
+	      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+	      role_desc = #{roleDesc,jdbcType=VARCHAR}
+	   where id = #{id,jdbcType=INTEGER}
+  	</update>
+	
+	<!--  查找记录-->
+	<select id="selectList" parameterType="com.foxtail.model.sys.SysRole" resultType="com.foxtail.model.sys.SysRole">
+		select <include refid="BASE_COL"/>
+		from t_sys_role where 1=1
+			<if test="id != null ">
+			AND  id = #{id,jdbcType=INTEGER}
+			</if>
+			<if test="roleName != null and '' != roleName ">
+			AND  role_name = #{roleName,jdbcType=VARCHAR}
+			</if>
+			<if test="roleType != null ">
+			AND  role_type = #{roleType,jdbcType=INTEGER}
+			</if>
+			<if test="roleStatus != null ">
+			AND  role_status = #{roleStatus,jdbcType=INTEGER}
+			</if>
+			<if test="createUserId != null ">
+			AND  create_user_id = #{createUserId,jdbcType=INTEGER}
+			</if>
+			<if test="createTime != null ">
+			AND  create_time = #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="modifyUserId != null ">
+			AND  modify_user_id = #{modifyUserId,jdbcType=INTEGER}
+			</if>
+			<if test="modifyTime != null ">
+			AND  modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="roleDesc != null and '' != roleDesc ">
+			AND  role_desc = #{roleDesc,jdbcType=VARCHAR}
+			</if>
+	</select>
+	
+	<!--批量删除-->
+	<delete id="deleteByIds" >
+	   delete from t_sys_role
+	   where id in
+	      <foreach collection="ids" item="id" index="index"
+             open="(" close=")" separator=",">
+              #{id,jdbcType=INTEGER}
+          </foreach>
+	</delete>
+	
+	<!-- 根据用户id查找用户的所有的角色 -->
+	<select id="findRoleTypesByUserId" resultType="java.lang.String" parameterType="java.lang.Integer">
+		SELECT DISTINCT t.role_type  FROM t_sys_role t LEFT JOIN t_sys_user_role r
+		ON t.id=r.role_id 
+		WHERE t.role_status=1 and r.user_id	=#{userId,jdbcType=INTEGER}
+	</select>
+	
+	
+	
+	<insert id="copyResources" >
+	  insert into t_sys_role_resource(role_id,resource_id) select #{roleid} role_id,resource_id from t_sys_role_resource where role_id=#{copyRoleid}
+	</insert>
+	
+	
+	
+</mapper>   

@@ -8,7 +8,7 @@
 <script>
 	//添加
 	function toAdd(){
-		$app.dialog('${path}/sysRoleController/toAdd.do',function(){
+		$app.dialog('${path}/sys/auth/role/toAdd.do',function(){
     		refMainTable();
 		});
 	}
@@ -17,7 +17,7 @@
 		var ids=getSelectedRowsIds('SysRoleList');
 		if(ids){
 			$app.confirm("删除数据不可恢复，确定要删除吗？",function(){
-				 $.post('${path}/sysRoleController/deleteById.do?ids='+ids,function(data){
+				 $.post('${path}/sys/auth/role/deleteById.do?ids='+ids,function(data){
 						var json=data;
 					    if(json.success){
 					    	 $app.alert("删除成功，角色被用户绑定的，将不删除",function(){  //关闭事件
@@ -43,7 +43,7 @@
     	var selected=getSelectedRowsArr('SysRoleList');
     	if(selected.length>0&&selected.length<2){
 
-        	$app.dialog('${path}/sysRoleController/editById.do?id='+selected,function(){
+        	$app.dialog('${path}/sys/auth/role/editById.do?id='+selected,function(){
         		refMainTable();
     		});
     	}else
@@ -57,7 +57,7 @@
     	var selected=getSelectedRowsArr('SysRoleList');
     	if(selected.length>0&&selected.length<2){
     		
-    		$app.dialog('${path}/sysRoleController/findById.do?id='+selected,function(){
+    		$app.dialog('${path}/sys/auth/role/findById.do?id='+selected,function(){
         		refMainTable();
     		});
     	}else{
@@ -76,7 +76,7 @@
     
     function editById(id){
     	
-    	$app.dialog('${path}/sysRoleController/editById.do?id='+id,function(){
+    	$app.dialog('${path}/sys/auth/role/editById.do?id='+id,function(){
     		refMainTable();
 		});
 	}
@@ -84,7 +84,7 @@
 	//根据id删除
 	function deleteById(id){
 		$app.confirm("删除数据不可恢复，确定要删除吗？",function(){
-			 $.post('${path}/sysRoleController/deleteById.do?ids='+id,function(data){
+			 $.post('${path}/sys/auth/role/deleteById.do?ids='+id,function(data){
 				   var json = data;
 				   if(json.success){
 					   
@@ -105,7 +105,7 @@
 
 	//根据id查看
 	function viewById(id){
-		$app.dialog('${path}/sysRoleController/findById.do?id='+id,function(){
+		$app.dialog('${path}/sys/auth/role/findById.do?id='+id,function(){
     		refMainTable();
 		});
 	}
@@ -158,7 +158,7 @@
     function copyRes(roleid){
     	
     	$app.prompt("被复制id",function(pass){
-    		$app.request("${path}/sysRoleController/copyRes.do",function(data){
+    		$app.request("${path}/sys/auth/role/copyRes.do",function(data){
     			
     			
     		},{param:{roleid:roleid,copyRoleid:pass}});
@@ -172,7 +172,7 @@
     	var selected=[id];
     	
     	if(selected.length>0&&selected.length<2){
-    	/* 	var dialog = art.dialog.open("${path}/sysResourceController/toSelectTree.do?roleId="+selected,{
+    	/* 	var dialog = art.dialog.open("${path}/sys/auth/res/toSelectTree.do?roleId="+selected,{
     	  		  id:"selectResourceDialog",
     	  		  title:"选择资源",
     	  		  width :'360px',
@@ -185,7 +185,7 @@
     	  		  }
     	  	});
     		 */
-    		$app.dialog("${path}/sysResourceController/toSelectTree.do?roleId="+selected,function(){
+    		$app.dialog("${path}/sys/auth/res/toSelectTree.do?roleId="+selected,function(){
         		
     		});
     	}else{
@@ -236,7 +236,7 @@
 	   
 		</div>
     	<table id="SysRoleList"  class="table_list" data-toggle="table"
-			data-url="${path}/sysRoleController/list.do" data-pagination="true"
+			data-url="${path}/sys/auth/role/list.do" data-pagination="true"
 			data-side-pagination="server" data-cache="false" data-query-params="postQueryParams"
 			data-page-list="[10, 15, 20, 30, 50,100]" data-method="post"
 			data-show-refresh="false" data-show-toggle="false"

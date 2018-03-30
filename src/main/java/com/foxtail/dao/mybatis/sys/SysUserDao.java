@@ -2,21 +2,16 @@ package com.foxtail.dao.mybatis.sys;
 
 import java.util.List;
 import java.util.Map;
-
 import org.apache.ibatis.annotations.Param;
-
-import com.foxtail.common.base.BaseMybatisDao;
-import com.foxtail.common.page.Pagination;
 import com.foxtail.model.sys.SysUser;
-import com.foxtail.vo.sys.SysUserVo;
 
-public interface SysUserDao extends BaseMybatisDao<SysUser,Integer> {	
+public interface SysUserDao {	
     
     public void deleteByIds(@Param("ids")String[] ids);
     
     public List<SysUser> selectList(SysUser sysUser);
   
-    List<SysUserVo> findListByPage(@Param("vo") SysUserVo vo,@Param("page")Pagination page);
+    List<SysUser> findForPage(@Param("kw") String kw);
 
     /**
     * Description:    
@@ -36,4 +31,12 @@ public interface SysUserDao extends BaseMybatisDao<SysUser,Integer> {
      
      
      public void deleteByAccounts(@Param("accounts") String[] accounts);
+     
+     
+     
+     public SysUser getById(String id);
+     
+     void save(@Param("mo")SysUser user);
+     
+     void update(@Param("mo")SysUser user);
 }

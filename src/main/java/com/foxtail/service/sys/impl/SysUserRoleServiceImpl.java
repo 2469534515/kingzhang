@@ -7,17 +7,13 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.foxtail.common.page.Pagination;
 import com.foxtail.dao.mybatis.sys.SysUserRoleDao;
 import com.foxtail.model.sys.SysUserRole;
-import com.foxtail.service.sys.SysUserRoleService;
-import com.foxtail.vo.sys.SysUserRoleVo;
 
-@Transactional
-@Service("sysUserRoleService")
-public class SysUserRoleServiceImpl implements SysUserRoleService{
 
+public class SysUserRoleServiceImpl{
+/*
 	private final static Logger log= Logger.getLogger(SysUserRoleServiceImpl.class);
 
 	@Autowired
@@ -98,6 +94,6 @@ public class SysUserRoleServiceImpl implements SysUserRoleService{
 	@Override
 	public void deleteByRoleId(Integer roleId) {
 		this.sysUserRoleDao.deleteByRoleId(roleId);
-	}
+	}*/
 }
 

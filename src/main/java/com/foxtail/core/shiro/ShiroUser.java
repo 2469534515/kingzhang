@@ -3,9 +3,7 @@ package com.foxtail.core.shiro;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 
-import com.foxtail.vo.sys.SysUserActiveVo;
-
-
+import com.foxtail.model.sys.SysUser;
 /**
  * 获取shiro登录的用户身份信息
 * Description: 
@@ -33,9 +31,9 @@ public class ShiroUser {
 	* Description:获取当前登录的用户信息    
 	* @Title: getUser  
 	 */
-    public static SysUserActiveVo getUser(){
+    public static SysUser getUser(){
     	Subject subject = SecurityUtils.getSubject();
-    	SysUserActiveVo user = (SysUserActiveVo) subject.getPrincipal();
+    	SysUser user = (SysUser) subject.getPrincipal();
     	return user;
     }
 
@@ -43,9 +41,9 @@ public class ShiroUser {
     * Description:获取当前登录的用户ID    
     * @Title: getUserId  
      */
-    public static Integer getUserId(){
+    public static String getUserId(){
     	Subject subject = SecurityUtils.getSubject();
-    	SysUserActiveVo user = (SysUserActiveVo) subject.getPrincipal();
+    	SysUser user = (SysUser) subject.getPrincipal();
     	if(null != user){
     		return user.getId();
     	}

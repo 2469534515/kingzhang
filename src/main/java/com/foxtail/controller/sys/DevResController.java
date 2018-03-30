@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import com.foxtail.common.AppModelMap;
-import com.foxtail.common.base.BaseMybatisController;
+import com.foxtail.common.base.BaseController;
 import com.foxtail.controller.LoginController;
 import com.foxtail.core.sys.NodeBean;
 import com.foxtail.model.sys.SysUser;
@@ -22,9 +22,9 @@ import com.foxtail.service.sys.SysUserService;
 
 @RequestMapping("sys/dev/res")
 @Controller
-public class DevResController extends BaseMybatisController{
+public class DevResController extends BaseController{
 
-	@Autowired(required=false) 
+	@Autowired() 
 	private SysUserService sysUserService; 
 	
 	@Autowired
@@ -38,9 +38,9 @@ public class DevResController extends BaseMybatisController{
 	
 	@RequestMapping("info")
 	@ResponseBody
-	private Object info(Integer id) {
+	private Object info(String id) {
 		
-		return this.sysUserService.selectByPrimaryKey(id);
+		return this.sysUserService.getById(id);
 	}
 	
 	@RequestMapping("scan")

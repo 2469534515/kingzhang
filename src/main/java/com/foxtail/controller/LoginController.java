@@ -24,14 +24,14 @@ import com.foxtail.common.util.VerifyCodeUtils;
 import com.foxtail.core.shiro.IncorrectCaptchaException;
 import com.foxtail.core.shiro.ShiroUser;
 import com.foxtail.model.sys.SysResource;
-import com.foxtail.service.sys.SysResourceService;
-import com.foxtail.vo.sys.SysUserActiveVo;
+import com.foxtail.model.sys.SysUser;
+import com.foxtail.service.sys.SysResService;
 
 @Controller
 public class LoginController {
 	
 	@Autowired
-	private SysResourceService sysResourceService;
+	private SysResService sysResourceService;
 	
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request, ModelMap model) throws Exception{
@@ -39,10 +39,10 @@ public class LoginController {
 		if(subject.isAuthenticated()){ //已经登录，重新登录
 			SecurityUtils.getSecurityManager().logout(subject);
 		}
-		SysUserActiveVo user = (SysUserActiveVo) subject.getPrincipal();
+		SysUser user = (SysUser) subject.getPrincipal();
 		//String loginName = request.getParameter("loginName");
     	if(user != null){
-    		model.addAttribute("loginName",user.getLoginName());
+    		model.addAttribute("loginName",user.getAccount());
     	}
 		String exceptionClassName = (String) request.getAttribute("shiroLoginFailure");
 		if(exceptionClassName!=null){
@@ -100,15 +100,14 @@ public class LoginController {
 	* @since 2016年5月31日 下午2:27:54
 	* @return
 	 */
-	@RequestMapping(value = "/loadAuthorization/pass")
-    public ModelAndView pass()
+	@RequestMapping(value = "admin")
+    public String pass(ModelMap model)
     {
-    	ModelAndView mv = new ModelAndView("layout/main");
-    	SysUserActiveVo user = ShiroUser.getUser();
-    	mv.addObject("user", user);
+		SysUser user = ShiroUser.getUser();
+    	model.put("user", user);
     	List<SysResource> resList = sysResourceService.findAllByUserId(ShiroUser.getUserId());
-    	mv.addObject("resList", resList);
-    	return mv;
+    	model.put("resList", resList);
+    	return "main";
     }
 	
 	

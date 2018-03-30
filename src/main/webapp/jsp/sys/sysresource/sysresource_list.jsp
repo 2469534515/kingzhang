@@ -41,7 +41,7 @@ border-left: 1px solid #eee;
 		if(nodeId){
 			var option=$('#SysResourceList').bootstrapTable('getOptions');
 			var total=option.totalRows;
-			$app.dialog('${path}/sysResourceController/toAdd.do?parentId='+nodeId+"&orderNum="+total,function(){
+			$app.dialog('${path}/sys/auth/res/toAdd.do?parentId='+nodeId+"&orderNum="+total,function(){
 				refMainTable();
 			},{width:"900px",height:"600px"});
 		
@@ -57,7 +57,7 @@ border-left: 1px solid #eee;
 		var ids=getSelectedRowsIds('SysResourceList');
 		if(ids){
 			$app.confirm("删除数据不可恢复，确定要删除吗？",function(){
-				$.post('${path}/sysResourceController/deleteById.do?ids='+ids,function(data){
+				$.post('${path}/sys/auth/res/deleteById.do?ids='+ids,function(data){
 				var json = data;
 					var msg = '删除失败';
 				    if(json.success){
@@ -84,7 +84,7 @@ border-left: 1px solid #eee;
     function toEdit(){
     	var selected=getSelectedRowsArr('SysResourceList');
     	if(selected.length>0&&selected.length<2){
-    		$app.dialog('${path}/sysResourceController/editById.do?id='+selected,function(){
+    		$app.dialog('${path}/sys/auth/res/editById.do?id='+selected,function(){
         		refMainTable();
     		});
     		
@@ -100,7 +100,7 @@ border-left: 1px solid #eee;
     	var selected=getSelectedRowsArr('SysResourceList');
     	if(selected.length>0&&selected.length<2){
     		
-    		window.location='${path}/sysResourceController/findById.do?id='+selected;
+    		window.location='${path}/sys/auth/res/findById.do?id='+selected;
     		
     	}else
     		
@@ -121,11 +121,11 @@ border-left: 1px solid #eee;
 	//查询列表
     function queryList(){
     	//$('#SysResourceList').bootstrapTable('refresh');
-    	$('#SysResourceList').bootstrapTable('refresh',{url:"${path}/sysResourceController/list.do"});
+    	$('#SysResourceList').bootstrapTable('refresh',{url:"${path}/sys/auth/res/list.do"});
     }
     
     function editById(id){
-    	$app.dialog('${path}/sysResourceController/editById.do?id='+id,function(){
+    	$app.dialog('${path}/sys/auth/res/editById.do?id='+id,function(){
 			refMainTable();
 		},{width:"900px",height:"600px"});
 		
@@ -134,7 +134,7 @@ border-left: 1px solid #eee;
 	//根据id删除
 	function deleteById(id){
 		$app.confirm("删除数据不可恢复，确定要删除吗？",function(){
-			 $.post('${path}/sysResourceController/deleteById.do?ids='+id,function(data){
+			 $.post('${path}/sys/auth/res/deleteById.do?ids='+id,function(data){
 				   var json=data;
 				   if(json.success){
 					   refreshNode();
@@ -154,7 +154,7 @@ border-left: 1px solid #eee;
 
 	//根据id查看
 	function viewById(id){
-			window.location='${path}/sysResourceController/findById.do?id='+id;
+			window.location='${path}/sys/auth/res/findById.do?id='+id;
 	}
 	
     //操作工具栏
@@ -178,7 +178,7 @@ border-left: 1px solid #eee;
 				enable : true, //是否通过异步方式加载数据
 				dataType : "text",
 				type : "post",
-				url :  "${path}/sysResourceController/loadTree.do?timestamp="+ new Date().getTime(),
+				url :  "${path}/sys/auth/res/loadTree.do?timestamp="+ new Date().getTime(),
 				autoParam : [ "id" ] //异步加载时必须传递的父节点的id值
 			},
 			view : {
@@ -213,7 +213,7 @@ border-left: 1px solid #eee;
 			$app.alert("删除失败");
 		}else{
 			var pid=getSelectTreeId();
-			$('#SysResourceList').bootstrapTable('refresh',{url:"${path}/sysResourceController/list.do?parentId="+pid});
+			$('#SysResourceList').bootstrapTable('refresh',{url:"${path}/sys/auth/res/list.do?parentId="+pid});
 		} 
 	}
 	
@@ -332,7 +332,7 @@ border-left: 1px solid #eee;
 			</div>
 	    
 	    	<table id="SysResourceList" class="table_list" data-toggle="table"
-				data-url="${path}/sysResourceController/list.do" data-pagination="true"
+				data-url="${path}/sys/auth/res/list.do" data-pagination="true"
 				data-side-pagination="server" data-cache="false" data-query-params="postQueryParams"
 				data-page-list="[15, 30, 50, 100]" data-page-size="15" data-method="post"
 				data-show-refresh="false" data-show-toggle="false"

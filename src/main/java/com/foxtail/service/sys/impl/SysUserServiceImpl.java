@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +23,12 @@ import com.foxtail.dao.mybatis.sys.SysUserRoleDao;
 import com.foxtail.model.sys.SysUser;
 import com.foxtail.model.sys.SysUserRole;
 import com.foxtail.service.sys.SysUserService;
-import com.foxtail.vo.sys.SysUserVo;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.lxr.commons.exception.ApplicationException;
 
-@Transactional
-@Service("sysUserService")
+
+@Service
 public class SysUserServiceImpl implements SysUserService{
 
 	private final static Logger log = Logger.getLogger(SysUserServiceImpl.class);
@@ -41,44 +41,16 @@ public class SysUserServiceImpl implements SysUserService{
 
 	
 	public SysUser selectByPrimaryKey(Integer id){
-	    return sysUserDao.selectByPrimaryKey(id);
+	    return sysUserDao.getById(id+"");
 	}
 
     public void deleteByPrimaryKey(Integer id){
-    	this.sysUserDao.deleteByPrimaryKey(id); 
+    	 
     }
 
-    public void insert(SysUser model) {
-	    HttpServletRequest request=ContextHolderUtils.getRequest();
-	    String ipAddr = TcpipUtil.getIpAddr(request);
-    	model.setRegIp(ipAddr);
-    	model.setRegTime(new Date());
-    	String rawPwd=model.getPassword();
-    	if (PublicUtil.checkEmptyString(rawPwd)) {
-			rawPwd=PropertiesUtil.getString("sys.defaultPwd");
-		}
-    	String password = MD5Util.string2MD5(rawPwd);
-    	model.setPassword(password);
-    	this.sysUserDao.insert(model); 
-    }
+   
     
-    public void insertSelective(SysUser model){
-    	HttpServletRequest request=ContextHolderUtils.getRequest();
-	    String ipAddr = TcpipUtil.getIpAddr(request);
-    	model.setRegIp(ipAddr);
-    	model.setRegTime(new Date());
-    	String rawPwd=model.getPassword();
-    	if (PublicUtil.checkEmptyString(rawPwd)) {
-			rawPwd=PropertiesUtil.getString("sys.defaultPwd");
-		}
-    	String password = MD5Util.string2MD5(rawPwd);
-    	model.setPassword(password);
-    	this.sysUserDao.insertSelective(model); 
-    }
-    
-    public void updateByPrimaryKeySelective(SysUser model){
-    	this.sysUserDao.updateByPrimaryKeySelective(model); 
-    }
+   
 
     public void updateByPrimaryKey(SysUser model) {
     	if (!StringUtils.isEmpty(model.getPassword())) {
@@ -91,7 +63,7 @@ public class SysUserServiceImpl implements SysUserService{
 		}
     	
     	
-		this.sysUserDao.updateByPrimaryKey(model);
+		this.sysUserDao.update(model);
     }
     
     public List<SysUser> selectList(SysUser sysUser){
@@ -99,28 +71,19 @@ public class SysUserServiceImpl implements SysUserService{
     }
     
     public List<SysUser> findAll() {
-		return sysUserDao.findAll();
+		return null;
     }
 
-    public void deleteAll() {
-		this.sysUserDao.deleteAll();
-    }
-
+   
     @Override
-    public void deleteIds(String ids){
-    	String [] idArr=ids.split(",");
-    	deleteIds(idArr);
-    }
-    
-  
-    public void deleteIds(String[] ids){
+    public void delete(String[] ids){
     	
     	if(ids==null||ids.length<1)throw new ApplicationException("删除数量不能为空");
     	
     	if(ServiceManager.securityService.isOnline(ids))
     		throw new ApplicationException("存在在线用户不能删除");
     	
-    	sysUserRoleDao.deleteByUserIds(ids);
+    	sysUserRoleDao.delete(ids);
 		
 		this.sysUserDao.deleteByIds(ids);
 			
@@ -128,13 +91,12 @@ public class SysUserServiceImpl implements SysUserService{
     }
 
     @Override
-    public Pagination findListByPage(int rows, int page,SysUserVo vo) {
-	    Pagination pagination = new Pagination();
-	    pagination.setPageNo(page); //当前页码
-	    pagination.setPageSize(rows);  //每页显示多少行
-	    List<SysUserVo>  list = this.sysUserDao.findListByPage(vo,pagination);
-	    pagination.setList(list);
-	    return pagination;
+    public Pagination findForPage(Pagination page,String kw) {
+    	PageHelper.startPage(page.getPageNo(), page.getPageSize());
+		Page listCountry  = (Page)sysUserDao.findForPage(kw);
+		page.setTotalCount((int)listCountry.getTotal());
+		page.setList(listCountry.getResult());
+		return page;
     }
 
 	@Override
@@ -146,15 +108,15 @@ public class SysUserServiceImpl implements SysUserService{
 	public void setUserRole(SysUserRole[] sysUserRoles) {
 		if (null!=sysUserRoles&&sysUserRoles.length>0) {
 			Integer userId=sysUserRoles[0].getUserId();
-			sysUserRoleDao.deleteByUserId(userId);
+			sysUserRoleDao.delete(new String[] {userId+""});
 			for (SysUserRole sysUserRole : sysUserRoles) {
-				sysUserRoleDao.insertSelective(sysUserRole);
+				sysUserRoleDao.save(sysUserRole.getUserId()+"",sysUserRole.getRoleId()+"");
 			}
 		}
 		
 	}
 
-	@Override
+	/*@Override
 	public boolean findIsExist(String name, String type) {
 		Map<String, String> map=new HashMap<String,String>();
 		if (SysUserVo.CHECK_TYPE_ACCOUNT.equals(type)) {
@@ -172,24 +134,35 @@ public class SysUserServiceImpl implements SysUserService{
 		}else {
 			return false;
 		}
-	}
+	}*/
 
 	@Override
 	public boolean updateByAccount(SysUser sysUser) {
-		
+		com.foxtail.dao.mybatis.sys.SysResDao jDao;
 		if(sysUser.getPassword()!=null)
 			sysUser.setPassword(MD5Util.string2MD5(sysUser.getPassword()));
 		
 		return sysUserDao.updateByAccount(sysUser);
 	}
-	
+
 	@Override
-	public void deleteByAccouts(String[] accounts) {
+	public SysUser getById(String id) {
+		 return sysUserDao.getById(id);
+	}
+
+	@Override
+	public void save(SysUser user) {
 		
-		sysUserRoleDao.deleteByAccounts(accounts);
-		sysUserDao.deleteByAccounts(accounts);
+		sysUserDao.save(user);
+	}
+
+	@Override
+	public void update(SysUser user) {
+		sysUserDao.update(user);
 		
-	} 	
+	}
+
+		
 	
 }
 

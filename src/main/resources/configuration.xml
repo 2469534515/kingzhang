@@ -9,10 +9,10 @@ PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
 	</settings>
 	<plugins>
 	<!-- sqlid以Page结尾 -->
-		<plugin interceptor="com.foxtail.core.interceptor.OffsetLimitInterceptor">
+		<!-- <plugin interceptor="com.foxtail.core.interceptor.OffsetLimitInterceptor">
 		    <property name="mysql" value="com.foxtail.dao.base.MySQLDialect"/>
 			<property name="pageSqlId" value=".*Page$" />	
-		</plugin>
+		</plugin> -->
 		<plugin interceptor="com.github.pagehelper.PageHelper">
         <property name="dialect" value="mysql"/>
         <!-- 该参数默认为false -->

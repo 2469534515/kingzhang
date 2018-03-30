@@ -11,7 +11,7 @@
 <script>
 	//添加
 	function toAdd(){
-		$app.dialog('${path}/sysUserController/toAdd.do',function(){
+		$app.dialog('${path}/sys/auth/user/toAdd.do',function(){
     		queryList();
 		});
 	}
@@ -24,7 +24,7 @@
 		if(ids){
 			
 			$app.confirm("删除数据不可恢复，确定要删除吗？",function(){
-				 $.post('${path}/sysUserController/deleteById.do?ids='+ids,function(data){
+				 $.post('${path}/sys/auth/user/deleteById.do?ids='+ids,function(data){
 					   var json = data;
 					   if(json.success){
 						  
@@ -51,7 +51,7 @@
     function toEdit(){
     	var selected=getSelectedRowsArr('SysUserList');
     	if(selected.length>0&&selected.length<2){
-    		$app.dialog('${path}/sysUserController/editById.do?id='+selected,function(){
+    		$app.dialog('${path}/sys/auth/user/editById.do?id='+selected,function(){
         		queryList();
     		});
     	}else{
@@ -110,7 +110,7 @@
     }
     
     function editById(id){
-    	$app.dialog('${path}/sysUserController/editById.do?id='+id,function(){
+    	$app.dialog('${path}/sys/auth/user/editById.do?id='+id,function(){
     		queryList();
 		});
 	}
@@ -120,18 +120,14 @@
     //操作工具栏
     function operatorFormatter(value, row, index) {
     	var operator="";
-    	<shiro:hasPermission name="SysUser:setRole">
 		operator+='<button class="btn btn-info btn-round btn-xs" onclick="setUser(\''+row.id+'\');"><i class="glyphicon glyphicon-user"></i> 分配角色</button>&nbsp;&nbsp;';
-    </shiro:hasPermission>
-	    	<shiro:hasPermission name="SysUser:edit">
+    
 	    		operator+='<button class="btn btn-warning btn-round btn-xs" onclick="editById(\''+row.id+'\');"><i class="glyphicon glyphicon-pencil"></i> 修改</button>&nbsp;&nbsp;';
-		    </shiro:hasPermission>
-		    <shiro:hasPermission name="SysUser:info">
+		    
 				operator+='<button class="btn btn-success btn-round btn-xs" onclick="toInfo(\''+row.id+'\')"><i class="glyphicon glyphicon-list-alt"></i> 详情</button>&nbsp;&nbsp;';
-	    	</shiro:hasPermission>
-	    	<shiro:hasPermission name="SysUser:remove">
+	    
 				operator+='<button class="btn btn-danger btn-round btn-xs" onclick="toRemove(\''+row.id+'\')"><i class="glyphicon glyphicon-trash"></i> 删除</button>';
-			</shiro:hasPermission>
+		
 		return operator;
 	}
     
@@ -164,7 +160,7 @@
     function setUser(id){
     	var selected=[id];
     	if(selected.length>0&&selected.length<2){
-    		var dialog = art.dialog.open("${path}/sysRoleController/toUserRoleTree.do?userId="+selected,{
+    		var dialog = art.dialog.open("${path}/sys/auth/role/toUserRoleTree.do?userId="+selected,{
     	  		  id:"selectResourceDialog",
     	  		  title:"选择人员",
     	  		  width :'300px',
@@ -212,41 +208,20 @@
 	    <button class="btn btn-success btn-round btn-sm" onclick="onExcell()">
 						<i class="glyphicon glyphicon-folder-open"></i>  &nbsp;导出excell
 				</button>
-	    	<shiro:hasPermission name="SysUser:add">
+	    	
 		    	<button class="btn btn-info btn-round btn-sm" onclick="toAdd();">
 					<i class="glyphicon glyphicon-plus"></i> 添加账号
 				</button>
-		    </shiro:hasPermission>
-			<shiro:hasPermission name="SysUser:remove">
+		   
 				<button class="btn  btn-warning btn-round btn-sm " onclick="toRemove()">
 					<i class="glyphicon glyphicon-trash"></i> 批量删除
 				</button>
-			</shiro:hasPermission>
-	    	<%-- <shiro:hasPermission name="SysUser:edit">
-	    		<button class="btn btn-warning btn-round" onclick="toEdit();">
-					<i class="glyphicon glyphicon-pencil"></i> 修改
-				</button>
-	    	</shiro:hasPermission>
-			<shiro:hasPermission name="SysUser:info">
-				<button class="btn btn-success btn-round" onclick="toInfo()">
-					<i class="glyphicon glyphicon-list-alt"></i>详情
-				</button>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="SysUser:remove">
-				<button class="btn btn-danger btn-round" onclick="toRemove()">
-					<i class="glyphicon glyphicon-trash"></i>删除
-				</button>
-			</shiro:hasPermission> 
-			<shiro:hasPermission name="SysUser:setRole">
-				<button class="btn btn-info btn-round" onclick="setUser();">
-					<i class="fa fa-users"></i> 分配角色
-				</button>
-			</shiro:hasPermission>
-			--%>
+		
+	   
 		</div>
     
     	<table id="SysUserList" class="table_list" data-toggle="table"
-			data-url="${path}/sysUserController/list.do" data-pagination="true"
+			data-url="${path}/sys/auth/user/list.do" data-pagination="true"
 			data-side-pagination="server" data-cache="false" data-query-params="postQueryParams"
 			data-page-list="[15, 30, 50, 100]" data-page-size="15" data-method="post"
 			data-show-refresh="false" data-show-toggle="false"
