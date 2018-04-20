@@ -15,54 +15,35 @@
     		refTable();
 		});
 	}
-	//删除
-	function toRemove(ids){
-		
-		if(!ids)
-		ids=getSelectedRowsIds('manTable');
-		
-		if(ids){
-			
-			$app.confirm("删除数据不可恢复，确定要删除吗？",function(){
-				 $.post('${path}/sys/auth/user/delete.do?ids='+ids,function(data){
-
-					    if(data.code==1){
-					    	$app.alert("删除成功",function(){
-					    		refTable();
-					    		
-					    	});
-		 					
-					    }else
-					    	$app.alert(msg);
-						   
-					   
-				},"json");
-				
-			});
-			
-			
-			
-		}else
-			$app.alert("请选择一条数据进行操作");
-			
-	}
-	
 	//编辑
     function toEdit(id){
-    	
     		$app.dialog('${path}/sys/auth/user/toedit.do?sysA=edit&id='+id,function(){
         		refTable();
     		});
-    	
 	}
-	
+	//删除
+	function toRemove(ids){
+		if(!ids)
+		ids=getSelectedRowsIds('manTable');
+		if(ids){
+			$app.confirm("删除数据不可恢复，确定要删除吗？",function(){
+				 $.post('${path}/sys/auth/user/delete.do?ids='+ids,function(data){
+					    if(data.code==1){
+					    	$app.alert("删除成功",function(){
+					    		refTable();
+					    	});
+					    }else
+					    	$app.alert(msg);
+				},"json");
+			});
+		}else
+			$app.alert("请选择一条数据进行操作");
+	}
     //查看
     function toInfo(id){
-    	
     	$app.request("${path}/sys/dev/res/info.do?id="+id
     			,function(data){
     		console.log(data);
-    		
     				$lxr.infoModal({title:"",items:[
     		    		{name:"姓名",val:data.userName}
     		    		,{name:"账号",val:data.account}
@@ -72,27 +53,17 @@
     		    		,{name:"添加ip",val:data.regIp}
     		    		,{name:"最后登录时间",val:data.lastLoginTime}
     		    		,{name:"最后错误登录时间",val:data.lastLoginErrTime}
-    		    		
     		    		,{name:"最后登录ip",val:data.lastLoginIp}
     		    		,{name:"身份证号",val:data.idNumber}
     		    		,{name:"登录累计错误次数",val:data.loginErrTimes}
     		    		,{name:"状态",val:data.status,type:"enum",enums:{"1":"启用","2":"锁定"} }
-    		    		
     		    		]
     		    	}
     		    		);
-    		
-    		
     	});
-    	
-    	
-    	
-    	
 	}
-    
-    
-    
 	
+    
 	//设置查询参数
 	function postQueryParams(params) {
 		var queryParams = $("#searchForm").serializeObject();
@@ -104,24 +75,15 @@
     function refTable(){
     	$('#manTable').bootstrapTable('refresh');
     }
-    
-  
-
-
 	
     //操作工具栏
     function operatorFormatter(value, row, index) {
-    	var operator="";
+    	var operator='<div class="btn-group">';
+    	operator+='<button class="btn btn-info btn-round btn-xs" onclick="setUser(\''+row.id+'\');"><i class="glyphicon glyphicon-user"></i> 分配角色</button>&nbsp;&nbsp;';
+    	operator+=$app.btn('edit','编辑','toEdit(\''+row.id+'\')');
+   		operator+=$app.btn('delete','删除','toRemove(\''+row.id+'\')');
+		return operator+'</div>';
     	
-		operator+='<button class="btn btn-info btn-round btn-xs" onclick="setUser(\''+row.id+'\');"><i class="glyphicon glyphicon-user"></i> 分配角色</button>&nbsp;&nbsp;';
-  
-	    		operator+='<button class="btn btn-warning btn-round btn-xs" onclick="toEdit(\''+row.id+'\');"><i class="glyphicon glyphicon-pencil"></i> 修改</button>&nbsp;&nbsp;';
-		  
-				operator+='<button class="btn btn-success btn-round btn-xs" onclick="toInfo(\''+row.id+'\')"><i class="glyphicon glyphicon-list-alt"></i> 详情</button>&nbsp;&nbsp;';
-	    	
-				operator+='<button class="btn btn-danger btn-round btn-xs" onclick="toRemove(\''+row.id+'\')"><i class="glyphicon glyphicon-trash"></i> 删除</button>';
-		
-		return operator;
 	}
     
     //格式化状态
@@ -138,7 +100,7 @@
  
     
     function setUser(id){
-    	$app.dialog("${path}/sys/auth/user/toSetRole.do?userId="+id,function(){
+    	$app.dialog("${path}/sys/auth/user/toSetRole.do?uid="+id,function(){
     		refTable();
 		},{width:'300px',height:"500px"});
     	

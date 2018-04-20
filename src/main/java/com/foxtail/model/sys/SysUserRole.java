@@ -1,48 +1,30 @@
 package com.foxtail.model.sys;
 
-import java.util.Date;
 import java.io.Serializable;
 
 public class SysUserRole implements Serializable{
-
-	private static final long serialVersionUID = 1L;
-
- 	/**
- 	* 主键
- 	*/
-   	private Integer id;
- 	/**
- 	* 用户id
- 	*/
-   	private Integer userId;
- 	/**
- 	* 角色id
- 	*/
-   	private Integer roleId;
-
-
-   	public void setId(Integer id){
-   		this.id = id;
-   	}
-
-   	public Integer getId(){
+   	private String id;
+   	private String uid;
+   	private String roleid;
+	public String getId() {
 		return id;
 	}
-
-   	public void setUserId(Integer userId){
-   		this.userId = userId;
-   	}
-
-   	public Integer getUserId(){
-		return userId;
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getUid() {
+		return uid;
+	}
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+	public String getRoleid() {
+		return roleid;
+	}
+	public void setRoleid(String roleid) {
+		this.roleid = roleid;
 	}
 
-   	public void setRoleId(Integer roleId){
-   		this.roleId = roleId;
-   	}
 
-   	public Integer getRoleId(){
-		return roleId;
-	}
 }
 

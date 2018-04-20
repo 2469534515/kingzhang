@@ -20,12 +20,6 @@
 	<!-- 日期 -->
 	<script type="text/javascript" src="${path}/jslib/My97DatePicker/4.7/WdatePicker.js"></script>
 	<link href="${path}/css/layout/style.css" rel="stylesheet" type="text/css" />
-	
-	
-	<script src="${path}/jslib/artDialog/jquery.artDialog.js?skin=blue"></script>   
-	<script src="${path}/jslib/artDialog/plugins/iframeTools.js"></script>  
-	<script src="${path}/js/foxtail/artDialogExt.js"></script>
-	
 	<!-- bootstrap table 引入 -->
 <%--<link rel="stylesheet" href="${path }/jslib/table/docs/assets/bootstrap/css/bootstrap-theme.min.css"> --%>
 	
@@ -35,18 +29,13 @@
     <script src="${path }/jslib/table/dist/bootstrap-table.js"></script>
     <script src="${path }/jslib/table/dist/locale/bootstrap-table-zh-CN.min.js"></script>
     
-    <!--layui插件-->
-    <link rel="stylesheet" href="${path }/jslib/layui/css/layui.css" />
-    <script src="${path }/jslib/layui/layui.js"></script>
-    <!--<link rel="stylesheet" href="${path }/jslib/layer/skin/default/layer.css" />
-    <script src="${path }/jslib/layer/layer.js"></script>-->
+    <script src="${path }/jslib/layer/layer.js"></script>
     <!-- bootstrap table 操作公共方法 -->
 	<script src="${path }/js/foxtail/tableCommon.js"></script>
 	<%-- <!-- 字体样式 -->
 	<link rel="stylesheet" href="${path }/css/font-awesome-4.4.0/css/font-awesome.min.css"> --%>
 	<%-- jquery --%>
 	<script type="text/javascript" src="${path}/jslib/jquery.form.js"></script>
-	
 	<script type="text/javascript" src="${path}/js/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="${path}/js/jquery.validate.messages.js"></script>
 	<script type="text/javascript" src="${path}/js/template-web.js"></script>

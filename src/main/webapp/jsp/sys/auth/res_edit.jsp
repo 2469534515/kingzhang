@@ -56,8 +56,8 @@ function onSubmit(form){
 					<input name="permission" id="permissionStr" type="text" class="form-control input-primary" style="width:350px" /></li>
 					<li><label>排序：</label><input name="sort" id="orderNum" value="${vo.sort}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="10" type="text" class="form-control input-primary" style="width:350px" /></li>
 					<li><label>是否启用：</label>
-						<input type="radio" id="isEnable" name="isEnable" value="1" checked="checked">启用
-						<input type="radio" id="isEnable" name="isEnable" value="2">禁用
+						<input type="radio" id="status" name="status" value="1" checked="checked">启用
+						<input type="radio" id="status" name="status" value="2">禁用
 					</li>
 					
 					<c:if test="${vo.level == 2}">
@@ -93,12 +93,12 @@ function onSubmit(form){
 					<li><span>排序：</span><input name="orderNum" id="orderNum" value="${vo.sort}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="10" type="text" class="form-control input-primary input-sm w260"/></li>
 					<li><span>是否启用：</span>
 						<div class="fl mr6">
-							<input type="radio" id="isEnable" <c:if test="${vo.status==1 }">checked="checked"</c:if> name="isEnable" value="1" >
-							<label for="isEnable">启用</label>
+							<input type="radio" id="status" <c:if test="${vo.status==1 }">checked="checked"</c:if> name="status" value="1" >
+							<label for="status">启用</label>
 						</div>
 						<div class="fl mr6">
-							<input type="radio" id="isEnable1" <c:if test="${vo.status==2 }">checked="checked"</c:if> name="isEnable" value="2">
-							<label for="isEnable1">禁用</label>
+							<input type="radio" id="status1" <c:if test="${vo.status==2 }">checked="checked"</c:if> name="status" value="2">
+							<label for="status1">禁用</label>
 						</div>
 						<div class="clear"></div>
 					</li>

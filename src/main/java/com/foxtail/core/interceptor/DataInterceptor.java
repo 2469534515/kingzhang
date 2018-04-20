@@ -18,7 +18,7 @@ public class DataInterceptor extends HandlerInterceptorAdapter{
 
 	
 	@Autowired
-	private SysResService sysResourceService;
+	private SysResService sysResService;
 	
 	
 	@Override
@@ -28,7 +28,7 @@ public class DataInterceptor extends HandlerInterceptorAdapter{
 		String uri = request.getServletPath();
 		uri = uri.substring(1,uri.length());
 		
-		request.setAttribute("resName",sysResourceService.queryUriName(uri));
+		request.setAttribute("resName",sysResService.queryUriName(uri));
 		
 		
 		return super.preHandle(request, response, handler);

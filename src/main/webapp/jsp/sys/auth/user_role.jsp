@@ -45,7 +45,7 @@
 					enable : true, //是否通过异步方式加载数据
 					dataType : "text",
 					type : "post",
-					url :  "${path}/sys/auth/role/loadRoleTree.do?roleId=${roleId}&timestamp="+ new Date().getTime(),
+					url :  "${path}/sys/auth/role/loadRoleTree.do?uid=${param.uid}",
 					autoParam : [ "id" ] //异步加载时必须传递的父节点的id值
 				},
 				view : {
@@ -84,10 +84,10 @@
 		function submitSelect(){
 			var nodes = zTree.getCheckedNodes(true);
 			var parms = [];
-			var userId = "${userId}";
+			var userId = "${param.uid}";
 			$.each(nodes,function(i,node){
 				var roleId = node.id;
-				var po = {"userId":userId,"roleId":roleId};
+				var po = {"uid":userId,"roleid":roleId};
 				parms.push(po);			
 			});
 			var len = parms.length;
@@ -103,12 +103,12 @@
 				  contentType:"application/json",
 				  cache:false,
 				  success:function(json){
-					  if(json.success){
+					  if(json.code==1){
 						  goBack();
 					  }else{
-						  alert('设置失败');
+						  $app.alert('设置失败');
 					  }
-					  artDialog.open.origin.closeDialog();
+					 
 				   },error:function(data){
 					   alert('服务异常');
 				   }

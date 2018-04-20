@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.foxtail.dao.mybatis.sys.SysUserDao">
 
-<sql id="BASE_COL"> a.* </sql>
+    <sql id="BASE_COL"> a.* </sql>
 
 	 <!-- 分页数据 -->    
 	<select id="findForPage" resultType="com.foxtail.model.sys.SysUser" >
@@ -27,31 +27,20 @@
 	
 	 <!-- 根据对象主键更新 -->    
   	<update id="update" parameterType="com.foxtail.model.sys.SysUser" >
-       update t_sys_user
-       set user_name = #{mo.name},
-	      email = #{mo.email},
-	      mobile_phone = #{mo.mobilePhone},
+       update t_sys_user set name = #{mo.name},
 	      <if test="mo.password">
 	      password = #{mo.password},
 	      </if>
-	      reg_time = #{mo.regTime},
-	      reg_ip = #{mo.regIp},
-	      last_login_time = #{mo.lastLoginTime},
-	      last_login_err_time = #{mo.lastLoginErrTime},
-	      last_login_ip = #{mo.lastLoginIp},
-	      id_number = #{mo.idNumber},
-	      login_err_times = #{mo.loginErrTimes},
-	      user_type = #{mo.userType},
 	      status = #{mo.status}
 	   where id = #{mo.id}
   	</update>
   	
-  	<delete id="delete" parameterType="string">
+  	<delete id="delete">
   	  delete from t_sys_user
 	   where id in
 	      <foreach collection="ids" item="id" index="index"
              open="(" close=")" separator=",">
-              #{id,jdbcType=INTEGER}
+              #{id}
           </foreach>
   	
   	</delete>

@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `t_sys_resource` (
   `createtime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   `updatetime` bigint(20) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=522 DEFAULT CHARSET=utf8 COMMENT='资源管理';
+) ENGINE=InnoDB AUTO_INCREMENT=523 DEFAULT CHARSET=utf8 COMMENT='资源管理';
 
 -- 正在导出表  ladmin.t_sys_resource 的数据：~17 rows (大约)
 DELETE FROM `t_sys_resource`;
@@ -68,28 +68,28 @@ CREATE TABLE IF NOT EXISTS `t_sys_role` (
   `createtime` bigint(20) DEFAULT NULL COMMENT '修改人id',
   `updatetime` bigint(20) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='角色管理';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='角色管理';
 
--- 正在导出表  ladmin.t_sys_role 的数据：~2 rows (大约)
+-- 正在导出表  ladmin.t_sys_role 的数据：~1 rows (大约)
 DELETE FROM `t_sys_role`;
 /*!40000 ALTER TABLE `t_sys_role` DISABLE KEYS */;
 INSERT INTO `t_sys_role` (`id`, `name`, `rdesc`, `status`, `creator`, `createtime`, `updatetime`) VALUES
 	(18, '超级管理员', NULL, 1, NULL, 44, 20180328144613);
 /*!40000 ALTER TABLE `t_sys_role` ENABLE KEYS */;
 
--- 导出  表 ladmin.t_sys_role_resource 结构
-CREATE TABLE IF NOT EXISTS `t_sys_role_resource` (
+-- 导出  表 ladmin.t_sys_role_res 结构
+CREATE TABLE IF NOT EXISTS `t_sys_role_res` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `role_id` int(11) DEFAULT NULL COMMENT '角色id',
-  `resource_id` int(11) DEFAULT NULL COMMENT '资源id',
+  `roleid` int(11) DEFAULT NULL COMMENT '角色id',
+  `resid` int(11) DEFAULT NULL COMMENT '资源id',
   PRIMARY KEY (`id`),
-  KEY `role_id` (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18602 DEFAULT CHARSET=utf8 COMMENT='角色_资源关系表';
+  KEY `role_id` (`roleid`)
+) ENGINE=InnoDB AUTO_INCREMENT=18616 DEFAULT CHARSET=utf8 COMMENT='角色_资源关系表';
 
--- 正在导出表  ladmin.t_sys_role_resource 的数据：~19 rows (大约)
-DELETE FROM `t_sys_role_resource`;
-/*!40000 ALTER TABLE `t_sys_role_resource` DISABLE KEYS */;
-INSERT INTO `t_sys_role_resource` (`id`, `role_id`, `resource_id`) VALUES
+-- 正在导出表  ladmin.t_sys_role_res 的数据：~17 rows (大约)
+DELETE FROM `t_sys_role_res`;
+/*!40000 ALTER TABLE `t_sys_role_res` DISABLE KEYS */;
+INSERT INTO `t_sys_role_res` (`id`, `roleid`, `resid`) VALUES
 	(18571, 18, 1),
 	(18572, 18, 518),
 	(18573, 18, 519),
@@ -107,7 +107,7 @@ INSERT INTO `t_sys_role_resource` (`id`, `role_id`, `resource_id`) VALUES
 	(18599, 18, 423),
 	(18600, 18, 424),
 	(18601, 18, 460);
-/*!40000 ALTER TABLE `t_sys_role_resource` ENABLE KEYS */;
+/*!40000 ALTER TABLE `t_sys_role_res` ENABLE KEYS */;
 
 -- 导出  表 ladmin.t_sys_user 结构
 CREATE TABLE IF NOT EXISTS `t_sys_user` (
@@ -122,27 +122,28 @@ CREATE TABLE IF NOT EXISTS `t_sys_user` (
   `updatetime` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `account` (`account`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- 正在导出表  ladmin.t_sys_user 的数据：~1 rows (大约)
 DELETE FROM `t_sys_user`;
 /*!40000 ALTER TABLE `t_sys_user` DISABLE KEYS */;
 INSERT INTO `t_sys_user` (`id`, `account`, `name`, `password`, `islock`, `status`, `creator`, `createtime`, `updatetime`) VALUES
-	(44, 'admin', NULL, '202cb962ac59075b964b07152d234b70', 1, 0, '', NULL, NULL);
+	(44, 'admin', 'admin', '202cb962ac59075b964b07152d234b70', 1, 0, '', NULL, NULL),
+	(47, 'admin3432', '32543', '202cb962ac59075b964b07152d234b70', 1, 0, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `t_sys_user` ENABLE KEYS */;
 
 -- 导出  表 ladmin.t_sys_user_role 结构
 CREATE TABLE IF NOT EXISTS `t_sys_user_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `user_id` int(11) DEFAULT NULL COMMENT '用户id',
-  `role_id` int(11) DEFAULT NULL COMMENT '角色id',
+  `uid` int(11) DEFAULT NULL COMMENT '用户id',
+  `roleid` int(11) DEFAULT NULL COMMENT '角色id',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=209 DEFAULT CHARSET=utf8 COMMENT='人员_角色表';
 
 -- 正在导出表  ladmin.t_sys_user_role 的数据：~2 rows (大约)
 DELETE FROM `t_sys_user_role`;
 /*!40000 ALTER TABLE `t_sys_user_role` DISABLE KEYS */;
-INSERT INTO `t_sys_user_role` (`id`, `user_id`, `role_id`) VALUES
+INSERT INTO `t_sys_user_role` (`id`, `uid`, `roleid`) VALUES
 	(25, 25, 18),
 	(208, 44, 18);
 /*!40000 ALTER TABLE `t_sys_user_role` ENABLE KEYS */;

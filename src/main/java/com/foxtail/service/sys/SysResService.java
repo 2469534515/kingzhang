@@ -4,34 +4,35 @@ import java.util.List;
 
 import com.foxtail.common.base.BaseMybatisService;
 import com.foxtail.common.page.Pagination;
-import com.foxtail.model.sys.SysResource;
+import com.foxtail.model.sys.SysRes;
+import com.foxtail.model.sys.SysRoleRes;
 
 public interface SysResService {	
     
-	SysResource getById(String id);
+	SysRes getById(String id);
 	
 	public void delete(String[] ids);
 	
-	void save(SysResource resource);
+	void save(SysRes resource);
 	
-	void update(SysResource resource);
-	
-    public List<SysResource> selectList(SysResource sysResource);
+	void update(SysRes resource);
     
     public Pagination findForPage(Pagination page,String kw,String pid);
     
-    public List<SysResource> selectListByParentId(String parentId);
+    public List<SysRes> findAll();
+    
+    public List<SysRoleRes> findRoleResByRoleid(String roleid);
     
     
+
+    public List<SysRes> selectList(SysRes sysRes);
     
- 	//public void saveAndCreateRes(SysResource po,boolean createButton);
- 	//生成按钮资源
- 	//public void createButtonRes (SysResource po);
+    public List<SysRes> findByPid(String pid);
  	
  	
- 	public List<SysResource> findAuthorizationAll(String roleId);
+ 	public List<SysRes> findAuthorizationAll(String roleId);
  	
-	public List<SysResource> findAllByUserId(String userId);
+	public List<SysRes> findAllByUserId(String userId);
 	
 	 public String queryUriName(String uri);
 	

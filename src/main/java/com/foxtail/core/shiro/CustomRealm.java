@@ -14,7 +14,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.foxtail.model.sys.SysResource;
+import com.foxtail.model.sys.SysRes;
 import com.foxtail.model.sys.SysUser;
 import com.foxtail.service.sys.SysResService;
 import com.foxtail.service.sys.SysRoleService;
@@ -30,7 +30,7 @@ public class CustomRealm extends AuthorizingRealm{
 	private SysUserService sysUserService;
 	
 	@Autowired
-	private SysResService sysResourceService;
+	private SysResService sysResService;
 	
 	@Autowired
 	private SysRoleService sysRoleService;
@@ -85,8 +85,8 @@ public class CustomRealm extends AuthorizingRealm{
 		List<String> permissions = new ArrayList<String>();
 		
  		if(null != sysUser){
-			List<SysResource> resources = sysResourceService.findAllByUserId(sysUser.getId());
-			for(SysResource resource : resources){
+			List<SysRes> resources = sysResService.findAllByUserId(sysUser.getId());
+			for(SysRes resource : resources){
 				String permission = resource.getPermission();
 				if(resource.getStatus()!=null&&resource.getStatus()!=1)
 					continue;

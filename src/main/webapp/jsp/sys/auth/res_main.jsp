@@ -127,16 +127,12 @@ border-left: 1px solid #eee;
 	
     //操作工具栏
     function operatorFormatter(value, row, index) {
+    	var operator='<div class="btn-group">';
+    	operator+=$app.btn('edit','编辑','toEdit(\''+row.id+'\')');
+   		operator+=$app.btn('delete','删除','toRemove(\''+row.id+'\')');
+		return operator+'</div>';
 
-    	var operator="";
-	    	
-	    		operator+='<button class="btn btn-warning btn-round btn-xs" onclick="toEdit(\''+row.id+'\');"><i class="glyphicon glyphicon-pencil"></i> 修改</button>&nbsp;&nbsp;';
-		    
-				operator+='<button class="btn btn-success btn-round btn-xs" onclick="viewById(\''+row.id+'\')"><i class="glyphicon glyphicon-list-alt"></i> 详情</button>&nbsp;&nbsp;';
-	    	
-				operator+='<button class="btn btn-danger btn-round btn-xs" onclick="toRemove(\''+row.id+'\')"><i class="glyphicon glyphicon-trash"></i> 删除</button>';
-			
-		return operator;
+    
 	}
     
 	var setting = {

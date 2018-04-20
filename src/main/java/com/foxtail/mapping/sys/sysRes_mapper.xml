@@ -8,12 +8,12 @@
 	
 	
 	
-	<select id="getById" resultType="com.foxtail.model.sys.SysResource" parameterType="string" >
+	<select id="getById" resultType="com.foxtail.model.sys.SysRes" parameterType="string" >
 	  select <include refid="BASE_COL" />,b.name parentName from t_sys_resource a left join t_sys_resource b on a.parentid=b.id
 	    where a.id = #{id}
 	</select>
 	 <!-- 分页数据 -->    
-	<select id="findForPage" resultType="com.foxtail.model.sys.SysResource" >
+	<select id="findForPage" resultType="com.foxtail.model.sys.SysRes" >
   		select <include refid="BASE_COL" />,b.name  parentName from t_sys_resource a LEFT JOIN t_sys_resource b on b.parentid = b.id
   		 where 1=1
 		  	<if test="kw != null ">and a.id like CONCAT('%',#{kw},'%')</if>
@@ -29,25 +29,17 @@
 	
 	
 	 <!-- 分页数据 -->    
-	<select id="queryUriName" resultType="com.foxtail.model.sys.SysResource" >
+	<select id="queryUriName" resultType="com.foxtail.model.sys.SysRes" >
   		select   <include refid="BASE_COL" /> from t_sys_resource a where a.path=#{uri}
     </select>
 	
-
-	
-
-	 <!-- 获取表所有数据 -->    
-    <select id="findAll" resultType="com.foxtail.model.sys.SysResource" >
-      select
-      <include refid="BASE_COL" />
+	 <!-- 获取表所有数据 -->
+    <select id="findAll" resultType="com.foxtail.model.sys.SysRes" >
+      select <include refid="BASE_COL" />
       from t_sys_resource a
     </select>
 
-	<!-- 根据主键删除 -->
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-	  delete from t_sys_resource
-	  where id = #{id,jdbcType=INTEGER}
-	</delete>
+	
 	
 	<delete id="deleteByParentId" parameterType="java.lang.Integer" >
 	  delete from t_sys_resource
@@ -56,7 +48,7 @@
 
 	
 	
-	<update id="update" parameterType="com.foxtail.model.sys.SysResource" >
+	<update id="update" parameterType="com.foxtail.model.sys.SysRes" >
 	   update t_sys_resource
 		<set >
 			<if test="parentId != null ">
@@ -102,161 +94,10 @@
 	   where id = #{id}
 	</update>
 
-	<!-- 根据对象字段保存 -->
-	<insert id="insertSelective" parameterType="com.foxtail.model.sys.SysResource" useGeneratedKeys="true" keyProperty="id" >
-	   insert into t_sys_resource
- 		<trim prefix="(" suffix=")" suffixOverrides="," >
-	  		<if test="id != null ">id,</if>
-	  		<if test="parentId != null ">parentid,</if>
-	  		<if test="resourceName != null ">name,</if>
-	  		<if test="resourcePath != null ">resource_path,</if>
-	  		<if test="resourceIcon != null ">resource_icon,</if>
-	  		<if test="level != null ">level,</if>
-	  		<if test="resourceDesc != null ">resource_desc,</if>
-	  		<if test="permissionStr != null ">permission_str,</if>
-	  		<if test="orderNum != null ">order_num,</if>
-	  		<if test="isEnable != null ">is_enable,</if>
-	  		<if test="createUserId != null ">create_user_id,</if>
-	  		<if test="createTime != null ">create_time,</if>
-	  		<if test="modifyUserId != null ">modify_user_id,</if>
-	  		<if test="modifyTime != null ">modify_time,</if>
- 		</trim>
- 		<trim prefix="values (" suffix=")" suffixOverrides="," >
-	  		<if test="id != null ">#{id,jdbcType=INTEGER},</if>
-	  		<if test="parentId != null ">#{parentId,jdbcType=INTEGER},</if>
-	  		<if test="resourceName != null ">#{resourceName,jdbcType=VARCHAR},</if>
-	  		<if test="resourcePath != null ">#{resourcePath,jdbcType=VARCHAR},</if>
-	  		<if test="resourceIcon != null ">#{resourceIcon,jdbcType=VARCHAR},</if>
-	  		<if test="level != null ">#{level,jdbcType=INTEGER},</if>
-	  		<if test="resourceDesc != null ">#{resourceDesc,jdbcType=VARCHAR},</if>
-	  		<if test="permissionStr != null ">#{permissionStr,jdbcType=VARCHAR},</if>
-	  		<if test="orderNum != null ">#{orderNum,jdbcType=INTEGER},</if>
-	  		<if test="isEnable != null ">#{isEnable,jdbcType=INTEGER},</if>
-	  		<if test="createUserId != null ">#{createUserId,jdbcType=INTEGER},</if>
-	  		<if test="createTime != null ">#{createTime,jdbcType=TIMESTAMP},</if>
-	  		<if test="modifyUserId != null ">#{modifyUserId,jdbcType=INTEGER},</if>
-	  		<if test="modifyTime != null ">#{modifyTime,jdbcType=TIMESTAMP},</if>
- 		</trim>
-	</insert>
-	
-	<!-- 更新记录 -->
-	<update id="updateByPrimaryKeySelective" parameterType="com.foxtail.model.sys.SysResource" >
-	   update t_sys_resource
-		<set >
-			<if test="id != null ">
-		  	id = #{id,jdbcType=INTEGER},
-			</if>
-			<if test="parentId != null ">
-		  	parentid = #{parentId,jdbcType=INTEGER},
-			</if>
-			<if test="resourceName != null ">
-		  	name = #{resourceName,jdbcType=VARCHAR},
-			</if>
-			<if test="resourcePath != null ">
-		  	resource_path = #{resourcePath,jdbcType=VARCHAR},
-			</if>
-			<if test="resourceIcon != null ">
-		  	resource_icon = #{resourceIcon,jdbcType=VARCHAR},
-			</if>
-			<if test="level != null ">
-		  	level = #{level,jdbcType=INTEGER},
-			</if>
-			<if test="resourceDesc != null ">
-		  	resource_desc = #{resourceDesc,jdbcType=VARCHAR},
-			</if>
-			<if test="permissionStr != null ">
-		  	permission_str = #{permissionStr,jdbcType=VARCHAR},
-			</if>
-			<if test="orderNum != null ">
-		  	order_num = #{orderNum,jdbcType=INTEGER},
-			</if>
-			<if test="isEnable != null ">
-		  	is_enable = #{isEnable,jdbcType=INTEGER},
-			</if>
-			<if test="createUserId != null ">
-		  	create_user_id = #{createUserId,jdbcType=INTEGER},
-			</if>
-			<if test="createTime != null ">
-		  	create_time = #{createTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="modifyUserId != null ">
-		  	modify_user_id = #{modifyUserId,jdbcType=INTEGER},
-			</if>
-			<if test="modifyTime != null ">
-		  	modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-			</if>
-	    </set>
-	   where id = #{id,jdbcType=INTEGER}
-	</update>
 
-	 <!-- 根据对象主键更新 -->    
-  	<update id="updateByPrimaryKey" parameterType="com.foxtail.model.sys.SysResource" >
-       update t_sys_resource
-       set 
-	      id = #{id,jdbcType=INTEGER},
-	      parentid = #{parentId,jdbcType=INTEGER},
-	      name = #{resourceName,jdbcType=VARCHAR},
-	      resource_path = #{resourcePath,jdbcType=VARCHAR},
-	      resource_icon = #{resourceIcon,jdbcType=VARCHAR},
-	      level = #{level,jdbcType=INTEGER},
-	      resource_desc = #{resourceDesc,jdbcType=VARCHAR},
-	      permission_str = #{permissionStr,jdbcType=VARCHAR},
-	      order_num = #{orderNum,jdbcType=INTEGER},
-	      is_enable = #{isEnable,jdbcType=INTEGER},
-	      create_user_id = #{createUserId,jdbcType=INTEGER},
-	      create_time = #{createTime,jdbcType=TIMESTAMP},
-	      modify_user_id = #{modifyUserId,jdbcType=INTEGER},
-	      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
-	   where id = #{id,jdbcType=INTEGER}
-  	</update>
+
 	
-	<!--  查找记录-->
-	<select id="selectList" parameterType="com.foxtail.model.sys.SysResource" resultType="com.foxtail.model.sys.SysResource">
-		select <include refid="BASE_COL"/>
-		from t_sys_resource a where 1=1
-			<if test="id != null ">
-			AND  id = #{id,jdbcType=INTEGER}
-			</if>
-			<if test="parentId != null ">
-			AND  parentid = #{parentId,jdbcType=INTEGER}
-			</if>
-			<if test="resourceName != null and '' != resourceName ">
-			AND  name = #{resourceName,jdbcType=VARCHAR}
-			</if>
-			<if test="resourcePath != null and '' != resourcePath ">
-			AND  resource_path = #{resourcePath,jdbcType=VARCHAR}
-			</if>
-			<if test="resourceIcon != null and '' != resourceIcon ">
-			AND  resource_icon = #{resourceIcon,jdbcType=VARCHAR}
-			</if>
-			<if test="level != null ">
-			AND  level = #{level,jdbcType=INTEGER}
-			</if>
-			<if test="resourceDesc != null and '' != resourceDesc ">
-			AND  resource_desc = #{resourceDesc,jdbcType=VARCHAR}
-			</if>
-			<if test="permissionStr != null and '' != permissionStr ">
-			AND  permission_str = #{permissionStr,jdbcType=VARCHAR}
-			</if>
-			<if test="orderNum != null ">
-			AND  order_num = #{orderNum,jdbcType=INTEGER}
-			</if>
-			<if test="isEnable != null ">
-			AND  is_enable = #{isEnable,jdbcType=INTEGER}
-			</if>
-			<if test="createUserId != null ">
-			AND  create_user_id = #{createUserId,jdbcType=INTEGER}
-			</if>
-			<if test="createTime != null ">
-			AND  create_time = #{createTime,jdbcType=TIMESTAMP}
-			</if>
-			<if test="modifyUserId != null ">
-			AND  modify_user_id = #{modifyUserId,jdbcType=INTEGER}
-			</if>
-			<if test="modifyTime != null ">
-			AND  modify_time = #{modifyTime,jdbcType=TIMESTAMP}
-			</if>
-	</select>
+
 	
 	<!--批量删除-->
 	<delete id="delete" >
@@ -269,19 +110,19 @@
 	</delete>
 	
 	<!-- 根据用户id查找资源 -->
-	 <select id="findAllByUid" resultType="com.foxtail.model.sys.SysResource" >
+	 <select id="findAllByUid" resultType="com.foxtail.model.sys.SysRes" >
 	 	SELECT DISTINCT resource.* FROM t_sys_resource resource
-		JOIN  t_sys_role_resource role ON role.resource_id=resource.id
-		JOIN t_sys_user_role u ON u.role_id=role.role_id
-		WHERE resource.status=1 AND u.user_id=#{uid}
+		JOIN  t_sys_role_res role ON role.resid=resource.id
+		JOIN t_sys_user_role u ON u.roleid=role.roleid
+		WHERE resource.status=1 AND u.uid=#{uid}
 		
 		ORDER BY resource.level,resource.sort
 	 </select>
 	
 	<!-- 根据上级资源id查找 -->
-	<select id="selectListByParentId"  resultType="com.foxtail.model.sys.SysResource">
+	<select id="findByPid"  resultType="com.foxtail.model.sys.SysRes">
 		select <include refid="BASE_COL"/>
-		from t_sys_resource a where 1=1 AND  a.parentid = #{parentid}
+		from t_sys_resource a where 1=1 AND  a.parentid = #{pid}
 		order by sort
 	</select>
 	
@@ -291,19 +132,14 @@
 		WHERE parentid = #{parentId,jdbcType=INTEGER}
 	</select>
 	
-	<!-- 查询vo对象 -->
-	<select id="selectVoByPrimaryKey" resultType="com.foxtail.model.sys.SysResource" parameterType="java.lang.Integer" >
-	  SELECT t.*,r.name as parent_name 
-	  from t_sys_resource t left  JOIN t_sys_resource r on t.parentid = r.id 
-	  where t.id = #{id,jdbcType=INTEGER}
-	</select>
+
 	
 	<!-- 查询授权数据 -->
-    <select id="findAuthorizationAll" resultType="com.foxtail.model.sys.SysResource" parameterType="java.lang.Integer" >
+    <select id="findAuthorizationAll" resultType="com.foxtail.model.sys.TreeNode"  >
 	    select DISTINCT t.*,r.role_id from t_sys_resource t 
-		LEFT JOIN ( SELECT m.id,m.role_id ,m.resource_id from t_sys_role_resource m where m.role_id = #{roleId,jdbcType=VARCHAR} ) as r
+		LEFT JOIN ( SELECT m.id,m.role_id ,m.resource_id from t_sys_role_res m where m.roleid = #{roleId} ) as r
 		on t.id = r.resource_id
-		order by order_num
+		order by sort
 	 </select>
 	 
 	 
@@ -314,8 +150,8 @@
 	 		(SELECT COUNT(*) total_num FROM t_sys_resource r
 			 WHERE r.parentid=#{resourceId,jdbcType=INTEGER}
 			 UNION ALL 
-			 SELECT COUNT(*) total_num2 FROM  t_sys_role_resource r2
-			 WHERE r2.resource_id=#{resourceId,jdbcType=INTEGER}
+			 SELECT COUNT(*) total_num2 FROM  t_sys_role_res r2
+			 WHERE r2.resid=#{resourceId,jdbcType=INTEGER}
 			) t_union
 	 </select>
 	

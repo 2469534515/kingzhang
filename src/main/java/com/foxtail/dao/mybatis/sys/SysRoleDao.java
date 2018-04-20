@@ -17,10 +17,9 @@ public interface SysRoleDao /*extends BaseDao<SysRole,Integer>*/ {
 	
 	public SysRole getById(String id);
 	
-	
-    public void deleteByIds(@Param("ids")String[] ids);
+	public void delete(@Param("ids")String[] ids);
     
-    public List<SysRole> selectList(SysRole sysRole);
+    public List<SysRole> findAll();
   
     List<SysRole> findForPage(String kw);
 

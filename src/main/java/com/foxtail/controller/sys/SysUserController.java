@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContextException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,10 +17,10 @@ import com.foxtail.common.JsonResult;
 import com.foxtail.common.base.BaseController;
 import com.foxtail.common.page.Pagination;
 import com.foxtail.common.web.DataGrid;
-import com.foxtail.common.web.JsonData;
 import com.foxtail.model.sys.SysUser;
 import com.foxtail.model.sys.SysUserRole;
 import com.foxtail.service.sys.SysUserService;
+import com.lxr.commons.exception.ApplicationException;
 
 @Controller
 @RequestMapping("sys/auth/user") 
@@ -31,7 +32,7 @@ public class SysUserController extends BaseController {
 	private SysUserService sysUserService; 
 	
 	
-	@RequestMapping() 
+	@RequestMapping()
 	public String toMain(String sysModule){
 		
 		return getMainJsp(sysModule);
@@ -58,96 +59,41 @@ public class SysUserController extends BaseController {
 	
 	@RequestMapping("save") 
 	@ResponseBody
-	public Object save(@ModelAttribute SysUser po) {
-		
-			this.sysUserService.save(po);
+	public Object save(SysUser po) {
+		sysUserService.save(po);
 		return JsonResult.getSuccessResult();
 	}
 	
 	
 	@RequestMapping("delete")
 	@ResponseBody
-	public Object deleteById(String ids) {
+	public Object delete(String ids) {
 			this.sysUserService.delete(ids.split(","));
-			return JsonResult.getSuccessResult("删除成功");
+			return JsonResult.getSuccessResult();
 	}
 	
+	@RequestMapping("update")
+	@ResponseBody
+	public Object update(SysUser user) {
+		sysUserService.update(user);
+		return JsonResult.getSuccessResult();
+	}
 
 	
 	@RequestMapping("/toSetUserRoles")
 	@ResponseBody
-	public JsonData toSetUserRoles(@RequestBody SysUserRole[] sysUserRoles){
-		JsonData jsonData = new JsonData();
-		try {
-			this.sysUserService.setUserRole(sysUserRoles);
-			jsonData.setSuccess(true);
-		} catch (Exception e) {
-			jsonData.setSuccess(false);
-		}
-	
-		return jsonData;
+	public Object toSetUserRoles(@RequestBody SysUserRole[] sysUserRoles){
+		
+		this.sysUserService.setUserRole(sysUserRoles);
+		return JsonResult.getSuccessResult();
 	}
 	
 	@RequestMapping("toSetRole") 
-	public ModelAndView toUserRoleTree(Integer userId)throws Exception{
-		ModelAndView mv = new ModelAndView("sys/auth/user_role");
-		if(null!=userId){
-			mv.addObject("userId",userId);
- 			StringBuffer roleId =new StringBuffer();
- 			
-			List<SysUserRole> list = null;//sysUserRoleService.selectByUserId(userId);
-			if(null!=list&&list.size()>0){
-				for(SysUserRole ur:list){
-					roleId.append(ur.getRoleId()+",");
-				}
-			}
-			mv.addObject("roleId", roleId.toString());
-		}
- 
-		return mv;
-	}
-	
-/*	@RequestMapping("/findJsonById")
-	@ResponseBody
-	public JsonData findJsonById(@ModelAttribute SysUser po)throws Exception{
-		JsonData json = new JsonData();
-		try {
-			po = this.sysUserService.selectByPrimaryKey(po.getId());
-			json.setSuccess(true);
-			json.setObj(po);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return json;
-	}*/
-	
-	/**
-	* Description:获得中文字的拼音    
-	* @Title: getUserAccount  
-	 *//*
-	@RequestMapping("/getUserAccount")
-	@ResponseBody
-	public JsonData getUserAccount(String name){
-		JsonData jsonData=new JsonData();
-		try {
-			String pinyinForName = PinyinUtil.getPinyinForName(name);
-			jsonData.setSuccess(true);
-			jsonData.setObj(pinyinForName);
-		} catch (Exception e) {
-			jsonData.setSuccess(false);
-		}
-		return jsonData;
-	}
-	*/
-	
-	/*@RequestMapping("/getIsExist")
-	@ResponseBody
-	public JsonData  getIsExist(String name,String type){
-		JsonData jsonData=new JsonData();
-		boolean findIsExist = sysUserService.findIsExist(name, type);
-		jsonData.setSuccess(findIsExist);
-		return jsonData;
+	public String toSetRole(String userId){
 		
-	}*/
+		return "sys/auth/user_role";
+	}
+	
+
 	
 }

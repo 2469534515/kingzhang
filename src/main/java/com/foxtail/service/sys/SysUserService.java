@@ -17,11 +17,7 @@ public interface SysUserService {
     
     void update(SysUser user);
     
-    public Pagination findForPage(Pagination page,String kw);
-    
-    public List<SysUser> selectList(SysUser sysUser);
-    
-    
+    public Pagination findForPage(Pagination page,String kw); 
     /**
      * Description:    
      * @Title: findSingleUser  根据账户，电子邮件，电话号码或者身份证号查找用户
@@ -30,12 +26,8 @@ public interface SysUserService {
      
      public void setUserRole(SysUserRole[] sysUserRoles);
      
-     /**
-      * 检查是否重复
-     * Description:    
-     * @Title: findExist  
-      */
-    // public boolean findIsExist(String name,String type);
+     
+     public boolean isExist(String account);
      
      
      boolean updateByAccount(SysUser sysUser);

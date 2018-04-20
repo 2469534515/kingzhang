@@ -142,30 +142,11 @@
     //授权
     function toAuth(id){
     	
-    	var selected=[id];
     	
-    	if(selected.length>0&&selected.length<2){
-    	/* 	var dialog = art.dialog.open("${path}/sys/auth/res/toSelectTree.do?roleId="+selected,{
-    	  		  id:"selectResourceDialog",
-    	  		  title:"选择资源",
-    	  		  width :'360px',
-    	  		  height:'400px',
-    	  		  lock:true,
-    	  		  init: function (){
-    		  		$(this.iframe).attr("scrolling","no");//去掉滚动条
-    		  	  },
-    	  		  close:function(){
-    	  		  }
-    	  	});
-    		 */
-    		$app.dialog("${path}/sys/auth/res/toSelectTree.do?roleId="+selected,function(){
+    		$app.dialog("${path}/sys/auth/role/toSetRes.do?roleId="+id,function(){
         		
     		});
-    	}else{
-    		//提示信息
-    		 $app.alert("请选择一条数据进行操作");
     	
-    	}
     } 
     
     

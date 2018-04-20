@@ -2,21 +2,21 @@ package com.foxtail.dao.mybatis.sys;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import com.foxtail.model.sys.SysResource;
+import com.foxtail.model.sys.SysRes;
 
 public interface SysResDao {	
 	
-	SysResource getById(String id);
+	SysRes getById(String id);
 	
-	void save(@Param("mo")SysResource Resource);
+	void save(@Param("mo")SysRes Resource);
 	
-	void update(SysResource resource);
+	void update(SysRes resource);
     
     public void delete(@Param("ids")String[] ids);
     
-    List<SysResource> findAll();
+    List<SysRes> findAll();
     
-    public List<SysResource> findAllByUid(@Param("uid")String userId);
+    public List<SysRes> findAllByUid(@Param("uid")String userId);
     
     
     
@@ -25,20 +25,23 @@ public interface SysResDao {
     
     public void deleteByParentId(String parent_id);
     
-    public List<SysResource> selectList(SysResource sysResource);
+    public List<SysRes> selectList(SysRes sysRes);
   
-    List<SysResource> findForPage(@Param("kw")String kw,@Param("pid")String pid);
+    List<SysRes> findForPage(@Param("kw")String kw,@Param("pid")String pid);
     
-    public List<SysResource> selectListByParentId(String parentId);
+    public List<SysRes> findByPid(String pid);
     
     
-    public List<SysResource> findAuthorizationAll(String roleId);
+    
+    
+    
+    public List<SysRes> findAuthorizationAll(String roleId);
    
     
     
     public Integer selectCountByParentId(String parentId);
     
-    List<SysResource> queryUriName(@Param("uri") String uri);
+    List<SysRes> queryUriName(@Param("uri") String uri);
     
     
     public Integer selectResourceReference(String resourceId);

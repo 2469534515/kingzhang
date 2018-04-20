@@ -7,4 +7,4 @@ public interface CommonDao {
 	
 	boolean delete(@Param("table")String table,@Param("ids")String[] ids);
 
-}
+} 

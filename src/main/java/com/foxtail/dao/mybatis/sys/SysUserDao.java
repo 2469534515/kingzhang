@@ -7,7 +7,7 @@ import com.foxtail.model.sys.SysUser;
 
 public interface SysUserDao {	
     
-    public void deleteByIds(@Param("ids")String[] ids);
+    public void delete(@Param("ids")String[] ids);
     
     public List<SysUser> selectList(SysUser sysUser);
   

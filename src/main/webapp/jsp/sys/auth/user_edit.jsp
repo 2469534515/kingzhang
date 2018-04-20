@@ -48,10 +48,7 @@ var backurl = "${path}/sys/auth/user.do";
 				<ul class="forminfo">
 					<li><span><strong style="color:red;">*</strong>姓名：</span><input name="name" id="userName" type="text" class="form-control input-primary input-sm w260" /></li>
 					<li><span><strong style="color:red;">*</strong>账号：</span><input name="account" id="account" type="text" class="form-control input-primary input-sm w260"  /></li>
-					<li><span>电子邮箱：</span><input name="email" id="email" type="text" class="form-control input-primary input-sm w260" /></li>
-					<li><span>手机号码：</span><input name="mobilePhone" id="mobilePhone" type="text" class="form-control input-primary input-sm w260" /></li>
 					<li><span><strong style="color:red;">*</strong>密码：</span><input name="password" id="password" type="password" class="form-control input-primary input-sm w260" /></li>
-					<li><span>身份证号：</span><input name="idNumber" id="idNumber" type="text" class="form-control input-primary input-sm w260" /></li>
 					
 					<li><span>状态</span>
 						<div class="fl mr6">
@@ -65,8 +62,8 @@ var backurl = "${path}/sys/auth/user.do";
 	    			</ul>
     		</form>
     		<div class="btnWrap">
-					<input name="" type="button" class="btn btn-primary" value="确认" onclick="toSubmit()"/>&nbsp;&nbsp;&nbsp;&nbsp;
-					<input name="" type="button" class="btn btn-warning" value="取消" onclick="goBackList();"/>
+					<input name="" type="button" class="btn btn-primary" value="确认" onclick="toSubmit()"/>
+					<input name="" type="button" class="btn btn-warning" value="取消" onclick="goBack();"/>
 	    		</div>
     		</c:if>
     		
@@ -74,16 +71,11 @@ var backurl = "${path}/sys/auth/user.do";
     		<form id="sub_form" method="post" data-action="${path}/sys/auth/user/update.do">
    				<input type="hidden" name="id" value="${vo.id}"/>
 				<ul class="forminfo">
-					<li><span>姓名：</span><input name="userName" id="userName" value="${vo.userName}" type="text" class="form-control input-primary input-sm w260" /></li>
+					<li><span>姓名：</span><input name="name" id="userName" value="${vo.name}" type="text" class="form-control input-primary input-sm w260" /></li>
 					<li><span>账号：</span>
 						<input name="account" id="account" value="${vo.account}" type="text" class="form-control input-primary input-sm w260"  />
 					</li>
-					<li><span>电子邮箱：</span>
-						<input name="email" id="email" value="${vo.email}" type="text" class="form-control input-primary input-sm w260"/>
-					</li>
-					<li><span>手机号码：</span><input name="mobilePhone" id="mobilePhone" value="${vo.mobilePhone}" type="text" class="form-control input-primary input-sm w260" /></li>
-					<li><span>身份证号：</span><input name="idNumber" id="idNumber" value="${vo.idNumber}" type="text" class="form-control input-primary input-sm w260" /></li>
-				
+					
 					<li><span>状态</span>
 						<div class="fl mr6">
 							<input type="radio" id="status" name="status" value="0" <c:if test="${vo.status==0 }">checked="checked"</c:if>>
@@ -99,8 +91,8 @@ var backurl = "${path}/sys/auth/user.do";
 	    		</ul>
     		</form>
     		<div class="btnWrap">
-					<input name="" type="button" class="btn btn-primary" value="确认" onclick="toSubmit()"/>&nbsp;&nbsp;&nbsp;&nbsp;
-					<input name="" type="button" class="btn btn-warning" value="取消" onclick="goBackList();"/>
+					<input name="" type="button" class="btn btn-primary" value="确认" onclick="toSubmit()"/>
+					<input name="" type="button" class="btn btn-warning" value="取消" onclick="goBack();"/>
 	    		</div>
     		
     		

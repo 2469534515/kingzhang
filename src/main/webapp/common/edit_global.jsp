@@ -99,8 +99,7 @@
 		
 		$(document).ready(function () {
 			
-			 if(validateOpts)
-			 $("#sub_form").validate(validateOpts);
+			 if(window.validateOpts)$("#sub_form").validate(validateOpts);
 		});
 		
 		

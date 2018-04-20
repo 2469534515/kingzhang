@@ -1,6 +1,8 @@
 package com.foxtail.controller;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -13,17 +15,24 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.foxtail.bean.ServiceManager;
+import com.foxtail.common.JsonResult;
 import com.foxtail.common.LoggerUtils;
 import com.foxtail.common.util.VerifyCodeUtils;
 import com.foxtail.core.shiro.IncorrectCaptchaException;
 import com.foxtail.core.shiro.ShiroUser;
-import com.foxtail.model.sys.SysResource;
+import com.foxtail.model.sys.SysRes;
 import com.foxtail.model.sys.SysUser;
 import com.foxtail.service.sys.SysResService;
 
@@ -31,9 +40,12 @@ import com.foxtail.service.sys.SysResService;
 public class LoginController {
 	
 	@Autowired
-	private SysResService sysResourceService;
+	protected RedisTemplate<Serializable, Serializable> redisTemplate;
 	
-	@RequestMapping("/login")
+	@Autowired
+	private SysResService sysResService;
+	
+	@RequestMapping("login")
 	public String login(HttpServletRequest request, ModelMap model) throws Exception{
 		Subject subject = SecurityUtils.getSubject();
 		if(subject.isAuthenticated()){ //已经登录，重新登录
@@ -72,7 +84,7 @@ public class LoginController {
 	* @param response
 	* @throws Exception
 	 */
-	@RequestMapping("/loadPasskey") 
+	@RequestMapping("loadPasskey") 
 	public void loadPasskey(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		response.setContentType("image/jpeg");
 		response.setHeader("Pragma", "No-cache");
@@ -100,15 +112,49 @@ public class LoginController {
 	* @since 2016年5月31日 下午2:27:54
 	* @return
 	 */
-	@RequestMapping(value = "admin")
-    public String pass(ModelMap model)
+	@RequestMapping("admin")
+    public String admin(ModelMap model)
     {
 		SysUser user = ShiroUser.getUser();
     	model.put("user", user);
-    	List<SysResource> resList = sysResourceService.findAllByUserId(ShiroUser.getUserId());
+    	List<SysRes> resList = sysResService.findAllByUserId(ShiroUser.getUserId());
     	model.put("resList", resList);
     	return "main";
     }
 	
+	@RequestMapping("redis")
+	@ResponseBody
+	public Object redis() {
+		/*JedisConnectionFactory jedisConnectionFactory;
+		jedisConnectionFactory.seth*/
+		
+		 redisTemplate.execute(new RedisCallback<Object>() {
+
+	            @Override
+	            public Object doInRedis(RedisConnection connection) throws DataAccessException {
+	                connection.set(redisTemplate.getStringSerializer().serialize("user.uid.1"),
+	                               redisTemplate.getStringSerializer().serialize("rgrtgrtfgh"));
+	                return null;
+	            }
+	        });
+		
+		
+		return JsonResult.getSuccessResult();
+	}
+	
+	
+	public static void main(String[] args) {
+		System.out.println(Pattern.matches("35", "35|35,|,35|,35,"));
+	}
+	
+	 public static boolean StringMatchRule(String souce, String regex) {
+	        boolean result = false;
+	        if (regex != null && souce != null) {
+	            result = Pattern.matches(regex, souce);
+	        }
+
+
+	        return result;
+	    }
 	
 }
