@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foxtail.dao.mybatis.ad.AdListDao">
+   <!-- 查询所有显示 -->
+   <select id="findAll" resultType="com.foxtail.model.ad.AdList" parameterType="com.foxtail.model.ad.AdList">
+        select * from t_ad_list where 1=1
+          <if test="adlist.adname != null and '' != adlist.adname">
+                  and adname like CONCAT('%',#{adlist.adname},'%')
+                  </if>
+   </select>
+   <!-- 批量删除 -->
+   <delete id="deAdList">
+			delete from t_ad_list
+			where id in
+			<foreach collection="ids" item="id" open="(" separator="," close=")">
+            	#{id}
+        	</foreach>
+	</delete>
+   
+   <!-- 添加 -->
+   <insert id="addAdList" parameterType="com.foxtail.model.ad.AdList">
+        insert into t_ad_list(adname,adlinks,adtype,adspace,adimg,addesc,starttime,endtime,sort) 
+        values(#{adname},#{adlinks},#{adtype},#{adspace},#{adimg},#{addesc},#{starttime},#{endtime},#{sort})
+   </insert>
+   <!-- 根据Id查询所有显示 -->
+   <select id="findAllById" resultType="com.foxtail.model.ad.AdList" parameterType="Integer">
+        select * from t_ad_list where id = #{id}
+   </select>
+   <!-- 修改 -->
+   <update id="updateAdList">
+        update t_ad_list
+        set adname = #{adname},adlinks = #{adlinks},addesc = #{addesc},adspace = #{adspace},adtype = #{adtype},adimg = #{adimg}
+        ,starttime = #{starttime},endtime = #{endtime},sort = #{sort} where id = #{id}
+   </update>
+</mapper>

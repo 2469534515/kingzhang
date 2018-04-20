@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.foxtail.dao.mybatis.info.PostsDao">
+
+	<!-- 分页数据 -->
+	<select id="findAll" resultType="com.foxtail.model.info.Posts"
+		parameterType="com.foxtail.model.info.Posts">
+		select * from t_info_posts where 1 = 1
+		<if test="posts.classId != null and ''!=posts.classId">
+			and classId like CONCAT("%",#{posts.classId},"%")
+		</if>
+		<if test="posts.titles != null and ''!=posts.titles">
+			and titles like CONCAT("%",#{posts.titles},"%")
+		</if>
+		<if test="posts.issue >0">
+			and issue like CONCAT("%",#{posts.issue},"%")
+		</if>
+		<if test="posts.starttime != null and ''!= posts.starttime">
+			and time &gt; #{posts.starttime}
+		</if>
+		<if test="posts.endtime != null and ''!= posts.endtime">
+			and time &lt; #{posts.endtime}
+		</if>
+	</select>
+
+	<!-- 根据id查询 -->
+	<select id="findAllById" resultType="com.foxtail.model.info.Posts"
+		parameterType="Integer">
+		select * from t_info_posts where id = #{id}
+	</select>
+
+	<!-- 刪除 -->
+	<delete id="dePosts">
+		delete from t_info_posts where id in
+		<foreach collection="ids" item="id" index="index" open="("
+			close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+
+
+
+	<!-- 修改 -->
+	<update id="updatePosts">
+		update t_info_posts set classId = #{classId},titles =
+		#{titles},title =#{title},
+		image = #{image},issue = #{issue},abstracts
+		= #{abstracts},
+		detail = #{detail},sort = #{sort}
+		where id = #{id}
+	</update>
+
+	<!-- 添加 -->
+	<insert id="addPosts">
+		insert into
+		t_info_posts(classId,titles,title,image,issue,abstracts,detail,sort,time)
+		values(#{classId},#{titles},#{title},#{image},#{issue},#{abstracts},#{detail},#{sort},#{time})
+	</insert>
+</mapper>

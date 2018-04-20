@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.foxtail.dao.mybatis.info.ColumnDao">
+
+	<!-- 分页查询 -->
+	<select id="findAll" resultType="com.foxtail.model.info.Columns"
+		parameterType="com.foxtail.model.info.Columns">
+		select * from t_info_column
+	</select>
+
+    <!-- 分页查询 -->
+	<select id="findColumnName" resultType="com.foxtail.model.info.Columns"
+		parameterType="com.foxtail.model.info.Columns">
+		select * from t_info_column
+	</select>
+
+	<!-- 根据id查询 -->
+	<select id="findAllById" resultType="com.foxtail.model.info.Columns"
+	      parameterType="Integer">
+		select * from t_info_column where id = #{id}
+	</select>
+
+	<!-- 批量删除 -->
+	<delete id="deColumns">
+		delete from t_info_column
+		where id in
+		<foreach collection="ids" item="id" index="index" open="("
+			close=")" separator=",">
+			#{id}
+		</foreach>
+    </delete>
+    
+    <!-- 修改 -->
+    <update id="updateColumns">
+      update t_info_column set columnname = #{columnname}, columntype = #{columntype}, sort = #{sort}, state = #{state} where id = #{id}
+    </update>
+    
+    <!-- 添加 -->
+    <insert id="addColumns" parameterType="com.foxtail.model.info.Columns">
+      insert into t_info_column(columnname,columntype,sort,state) values(#{columnname},#{columntype},#{sort},#{state})
+    </insert>
+</mapper>

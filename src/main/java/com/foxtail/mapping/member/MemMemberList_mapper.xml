@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+	<mapper namespace="com.foxtail.dao.mybatis.member.MemMemberListDao">
+					 
+	
+			
+			
+			<!-- 分页查询会员列表 -->
+			<select id = "findMemberListByPage" resultType = "com.foxtail.model.member.MemMemberList">
+					select * from member_list m where 1=1
+							<if test="memberList.mName != null and '' != memberList.mName">
+								and m.mName like CONCAT('%',#{memberList.mName},'%')
+							</if>
+							<if test="memberList.beforeTime != null and '' != memberList.beforeTime">
+								and m.regTime &gt; #{memberList.beforeTime}
+							</if>
+							<if test="memberList.afterTime != null and '' != memberList.afterTime">
+								and m.regTime &lt; #{memberList.afterTime}
+							</if>
+					
+			</select>
+			
+			<!-- 查询所有会员的数量 -->
+			<select id = "getMemMemberListCount" resultType = "Integer">
+					select count(1) from member_list
+			</select>
+			
+			<!-- 根据Id删除会员信息 -->
+			<delete id="deleteMemeberById" parameterType="Integer">
+					delete from member_list where id = #{id}
+			</delete>
+			
+			<!-- 获得会员对象通过id -->
+			<select id="getMemMemberListById" parameterType="Integer" resultType="com.foxtail.model.member.MemMemberList">
+					select * from member_list where id = #{id}
+			</select>
+			
+			<!-- 通过会员信息修改会员信息 -->
+			<update id="updateMemberById">
+					update member_list m set m.headImg = #{headImg},m.sex = #{sex},m.mName = #{mName},
+					m.phoneNumber = #{phoneNumber},m.balance = #{balance} where m.id = #{id}
+			</update>
+			
+			<!-- 添加会员信息 -->
+			<insert id="addMemMemberByMember" parameterType="com.foxtail.model.member.MemMemberList">
+					insert into member_list(headImg,sex,mName,phoneNumber,balance,regTime)
+					values (#{headImg},#{sex},#{mName},#{phoneNumber},#{balance},#{regTime})
+			</insert>
+			
+			
+			<delete id="deleteMultiple" parameterType="java.lang.Integer">
+					delete from member_list
+					where id in
+					<foreach item="ides" collection="array" open="(" separator="," close=")">
+            			#{ides}
+        			</foreach>
+			</delete>
+			
+			
+							
+					
+	</mapper>

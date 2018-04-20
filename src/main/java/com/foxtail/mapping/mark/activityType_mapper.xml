@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.foxtail.dao.mybatis.mark.ActivityTypeDao">
+  
+  <!-- 查询分页 -->
+  <select id="findAll" resultType="com.foxtail.model.mark.ActivityType">
+    select * from t_activity_type
+  </select>
+  
+  <!-- 根据Id查询所有显示 -->
+	<select id="findAllByID" resultType="com.foxtail.model.mark.ActivityType"
+		parameterType="Integer">
+		select * from t_activity_type where id = #{id}
+	</select>
+  
+  <!-- 批量删除 -->
+  <delete id="deActivityTypes">
+  	delete from t_activity_type
+		where id in
+		<foreach collection="ids" item="id" index="index" open="("
+			close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+  
+  <!-- 添加 -->
+  <insert id="addActivityType" parameterType="com.foxtail.model.mark.ActivityType">
+    insert into t_activity_type (typename,typedesc) values(#{typename},#{typedesc})
+  </insert>
+  
+  <!-- 修改 -->
+  <update id="upActivityType">
+   update t_activity_type set typename = #{typename},typedesc = #{typedesc} where id = #{id}
+  </update>
+  
+  
+   <!-- 查询活动类型名称 -->
+  <select id="getActivityName" resultType="com.foxtail.model.mark.ActivityType">
+    select typename from t_activity_type
+  </select>
+  
+  
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.foxtail.dao.mybatis.mark.ActivityListDao">
+  
+  <!-- 查询分页 -->
+  <select id="findAll" resultType="com.foxtail.model.mark.ActivityList" parameterType="com.foxtail.model.mark.ActivityList">
+    select * from t_activity_list where 1=1
+       <if test="activitylist.activityname !=null and '' != activitylist.activityname">
+          and activityname like CONCAT("%",#{activitylist.activityname},"%")
+       </if>
+       <if test="activitylist.state > 0 ">
+          and state like CONCAT("%",#{activitylist.state},"%")
+       </if>
+  </select>
+  
+  <!-- 根据Id查询所有显示 -->
+	<select id="findAllById" resultType="com.foxtail.model.mark.ActivityList"
+		parameterType="Integer">
+		select * from t_activity_list where id = #{id}
+	</select>
+  
+  <!-- 批量删除 -->
+  <delete id="deActivityList">
+  	delete from t_activity_list
+		where id in
+		<foreach collection="ids" item="id" index="index" open="("
+			close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+  
+  <!-- 添加 -->
+  <insert id="addActivityList" parameterType="com.foxtail.model.mark.ActivityList">
+    insert into t_activity_list (activityname,activitytype,state)
+    values(#{activityname},#{activitytype},#{state})
+  </insert>
+  
+  <!-- 修改 -->
+  <update id="updateActivityList">
+   update t_activity_list set activityname = #{activityname},activitytype = #{activitytype}, state = #{state} where id = #{id}
+  </update>
+  
+  
+  
+</mapper>

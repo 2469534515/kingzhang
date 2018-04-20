@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.foxtail.dao.mybatis.mark.CouponAdminDao">
+  
+  <!-- 查询分页 -->
+  <select id="findAll" resultType="com.foxtail.model.mark.CouponAdmin" parameterType="com.foxtail.model.mark.CouponAdmin">
+    select * from t_coupon_admin where 1=1
+       <if test="couponadmin.couponname !=null and '' != couponadmin.couponname">
+          and couponname like CONCAT("%",#{couponadmin.couponname},"%")
+       </if>
+       <if test="couponadmin.facevalue !=null and '' != couponadmin.facevalue">
+          and facevalue like CONCAT("%",#{couponadmin.facevalue},"%")
+       </if>
+       <if test="couponadmin.starttime != null and '' != couponadmin.starttime">
+			and starttime &gt; #{couponadmin.starttime}
+	   </if>
+	   <if test="couponadmin.endtime != null and '' != couponadmin.endtime">
+			and endtime &lt; #{couponadmin.endtime}
+	   </if>
+  </select>
+  
+  <!-- 根据Id查询所有显示 -->
+	<select id="findAllById" resultType="com.foxtail.model.mark.CouponAdmin"
+		parameterType="Integer">
+		select * from t_coupon_admin where id = #{id}
+	</select>
+  
+  <!-- 批量删除 -->
+  <delete id="deCouponAdmin">
+  	delete from t_coupon_admin
+		where id in
+		<foreach collection="ids" item="id" index="index" open="("
+			close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+  
+  <!-- 添加 -->
+  <insert id="addCouponAdmin" parameterType="com.foxtail.model.mark.CouponAdmin">
+    insert into t_coupon_admin (coupontype,couponname,facevalue,applygoods,useif,starttime,endtime,issuesum,coupondesc)
+    values(#{coupontype},#{couponname},#{facevalue},#{applygoods},#{useif},#{starttime},#{endtime},#{issuesum},#{coupondesc})
+  </insert>
+  
+  <!-- 修改 -->
+  <update id="updateCouponAdmin">
+   update t_coupon_admin set coupontype = #{coupontype},couponname = #{couponname}, facevalue = #{facevalue}, applygoods = #{applygoods},
+   useif = #{useif}, starttime = #{starttime}, endtime = #{endtime}, issuesum = #{issuesum}, coupondesc = #{coupondesc} where id = #{id}
+  </update>
+  
+  
+  
+</mapper>

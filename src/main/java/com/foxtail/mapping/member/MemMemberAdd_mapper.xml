@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+	<mapper namespace="com.foxtail.dao.mybatis.member.MemMemberAddDao">
+					 
+	
+			
+			
+			<!-- 多条件分页查询商品列表 -->
+			<select id = "getMemMemberAddListByPage" resultType = "com.foxtail.model.member.MemMemberAdd" parameterType="com.foxtail.model.member.MemMemberAdd">
+					select * from member_add where 1=1
+					<if test="memMemberAdd.addClassify != null and '' != memMemberAdd.addClassify">
+						and addClassify = #{memMemberAdd.addClassify} 
+					</if> 
+					<if test="memMemberAdd.tradeName != null and '' != memMemberAdd.tradeName">
+						and tradeName like CONCAT('%',#{memMemberAdd.tradeName},'%')
+					</if> 
+					
+					<if test="memMemberAdd.beforeTime != null and '' != memMemberAdd.beforeTime">
+						and addTime &gt; #{memMemberAdd.beforeTime} 
+					</if> 
+					
+					<if test="memMemberAdd.afterTime != null and '' != memMemberAdd.afterTime"> 
+						and addTime &lt; #{memMemberAdd.afterTime} 
+					</if> 
+					
+			</select>
+			
+			<!-- 查询所有会员的数量 -->
+<!-- 			<select id = "getMemMemberListCount" resultType = "Integer"> -->
+<!-- 					select count(1) from member_list -->
+<!-- 			</select> -->
+			
+			<!-- 根据Id删除会员信息 -->
+<!-- 			<delete id="deleteMemeberById" parameterType="Integer"> -->
+<!-- 					delete from member_list where id = #{id} -->
+<!-- 			</delete> -->
+			
+			<!-- 获得商品对象通过id -->
+<!-- 			<select id="getCalssifyById" parameterType="Integer" resultType="com.foxtail.model.goods.Classify"> -->
+<!-- 					select * from goods_classify where id = #{id} -->
+<!-- 			</select> -->
+			
+			<!-- 通过商品信息修改商品信息 -->
+<!-- 			<update id="updateClassifyByCalssify"> -->
+<!-- 					update goods_classify set goodsClassifyName = #{goodsClassifyName}, goodsClassifyPhoto = #{goodsClassifyPhoto},goodsClassifySort = #{goodsClassifySort} -->
+<!-- 					where id = #{id} -->
+<!-- 			</update> -->
+			
+			<!-- 添加商品信息 -->
+<!-- 			<insert id="addClassify" parameterType="com.foxtail.model.goods.Classify"> -->
+<!-- 					insert into goods_classify -->
+<!-- 					(goodsClassifyName,goodsClassifyPhoto,goodsClassifySort) -->
+<!-- 					values  -->
+<!-- 					(#{goodsClassifyName},#{goodsClassifyPhoto},#{goodsClassifySort}) -->
+<!-- 			</insert> -->
+			
+			
+			<!-- 删除商品分类信息/批量删除 -->
+			<delete id="deleteMemberAdd">
+					delete from member_add
+					where id in
+					<foreach item="ides" collection="array" open="(" separator="," close=")">
+            			#{ides}
+        			</foreach>
+			</delete>
+			
+			
+							
+					
+	</mapper>

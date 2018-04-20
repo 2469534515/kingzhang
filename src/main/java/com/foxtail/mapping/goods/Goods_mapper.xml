@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+	<mapper namespace="com.foxtail.dao.mybatis.goods.GoodsDao">
+					 
+	
+			
+			
+			<!-- 多条件分页查询商品列表 -->
+			<select id = "findAllGoodsByPage" resultType = "com.foxtail.model.goods.Goods" parameterType="com.foxtail.model.goods.Goods">
+					select * from goods_manager where 1=1
+							
+							<if test="goods.goodsClassify != null and '' != goods.goodsClassify">
+								and goodsClassify = #{goods.goodsClassify}
+							</if>
+							
+							<if test="goods.goodsStatus != null and '' != goods.goodsStatus">
+								and goodsStatus = #{goods.goodsStatus}
+							</if>
+							
+							<if test="goods.beforeTime != null and '' != goods.beforeTime">
+								and agTime &gt; #{goods.beforeTime}
+							</if>
+							
+							<if test="goods.afterTime != null and '' != goods.afterTime">
+								and agTime &lt; #{goods.afterTime}
+							</if>
+							
+							<if test="goods.goodsName != null and '' != goods.goodsName">
+								and goodsName like CONCAT('%',#{goods.goodsName},'%')
+							</if>
+							ORDER BY goodsSort desc
+					
+			</select>
+			
+			<!-- 查询所有会员的数量 -->
+<!-- 			<select id = "getMemMemberListCount" resultType = "Integer"> -->
+<!-- 					select count(1) from member_list -->
+<!-- 			</select> -->
+			
+			<!-- 根据Id删除会员信息 -->
+<!-- 			<delete id="deleteMemeberById" parameterType="Integer"> -->
+<!-- 					delete from member_list where id = #{id} -->
+<!-- 			</delete> -->
+			
+			<!-- 获得商品对象通过id -->
+			<select id="getGoodsById" parameterType="Integer" resultType="com.foxtail.model.goods.Goods">
+					select * from goods_manager where id = #{id}
+			</select>
+			
+			<!-- 通过商品信息修改商品信息 -->
+			<update id="updateGoodsByGoods">
+					update goods_manager g set g.goodsMasterPhoto = #{goodsMasterPhoto}, g.goodsClassify = #{goodsClassify},g.goodsName = #{goodsName},
+					g.goodsBrand = #{goodsBrand},g.goodsSort = #{goodsSort},g.goodsPrice = #{goodsPrice},g.marketPrice = #{marketPrice}
+					where g.id=#{id}
+			</update>
+			
+			<!-- 添加商品信息 -->
+			<insert id="addGoods" parameterType="com.foxtail.model.goods.Goods">
+					insert into goods_manager
+					(goodsClassify,goodsName,goodsOutline,goodsBrand,goodsMasterPhoto,goodsType,goodsSort,goodsFormat,goodsPrice,marketPrice,goodsStock,goodsSales,agTime,detailedInfor,goodsStatus)
+					values 
+					(#{goodsClassify},#{goodsName},#{goodsOutline},#{goodsBrand},#{goodsMasterPhoto},#{goodsType},#{goodsSort},#{goodsFormat},#{goodsPrice},#{marketPrice},#{goodsStock},#{goodsSales},#{agTime},#{detailedInfor},#{goodsStatus})
+			</insert>
+			
+			
+			<delete id="deleteGoods" parameterType="java.lang.Integer">
+					delete from goods_manager
+					where id in
+					<foreach item="ids" collection="array" open="(" separator="," close=")">
+            			#{ids}
+        			</foreach>
+			</delete>
+			
+			
+							
+					
+	</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.foxtail.dao.mybatis.mark.CouponTypeDao">
+	<!-- 查询所有显示 -->
+	<select id="findAll" resultType="com.foxtail.model.mark.CouponType">
+		select * from t_coupon_type
+	</select>
+	
+	<!-- 查询所有显示 -->
+	<select id="findCouponName" resultType="com.foxtail.model.mark.CouponType">
+		select * from t_coupon_type
+	</select>
+
+	<!-- 删除，批量删除 -->
+	<delete id="deCouponTypeById">
+		delete from t_coupon_type
+		where id in
+		<foreach collection="ids" item="id" index="index" open="("
+			close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="addCouponType" parameterType="com.foxtail.model.mark.CouponType">
+		insert into t_coupon_type(coupontypename,sort)
+		values(#{coupontypename},#{sort})
+	</insert>
+
+	<!-- 根据Id查询所有显示 -->
+	<select id="findAllById" resultType="com.foxtail.model.mark.CouponType"
+		parameterType="Integer">
+		select * from t_coupon_type where id = #{id}
+	</select>
+
+	<!-- 修改 -->
+	<update id="updateCouponType">
+		update t_coupon_type
+		set coupontypename = #{coupontypename},sort = #{sort} where id = #{id}
+	</update>
+</mapper>
